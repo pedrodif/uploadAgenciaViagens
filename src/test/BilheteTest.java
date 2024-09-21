@@ -37,7 +37,7 @@ public class BilheteTest {
     public void testCalcularRemuneracaoAgencia() {
         bilhete.calcularValorTotal();
         bilhete.calcularRemuneracaoAgencia();
-        
+
         BigDecimal expectedComissao = bilhete.getValorTotal().multiply(new BigDecimal("0.10"));
         assertEquals(expectedComissao, bilhete.getRemuneracaoAgencia());
     }

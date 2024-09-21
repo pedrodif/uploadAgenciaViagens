@@ -5,9 +5,9 @@ import java.util.List;
 
 public class Passageiro {
     private String rg;
-    private String nome;    
+    private String nome;
     private String numeroPassaporte;
-    private List<Bilhete> bilhetes;  // Vários bilhetes
+    private List<Bilhete> bilhetes; // Vários bilhetes
 
     public Passageiro(String nome, String rg, String numeroPassaporte) {
         this.nome = nome;
@@ -17,11 +17,11 @@ public class Passageiro {
     }
 
     public void cadastrarBilhete(Bilhete bilhete) {
-        this.bilhetes.add(bilhete);  // Adiciona o bilhete à lista
+        this.bilhetes.add(bilhete); // Adiciona o bilhete à lista
     }
 
     public void removerBilhete(Bilhete bilhete) {
-        this.bilhetes.remove(bilhete);  // Remove o bilhete da lista
+        this.bilhetes.remove(bilhete); // Remove o bilhete da lista
     }
 
     public String getRg() {
@@ -53,6 +53,7 @@ public class Passageiro {
     }
 
     public Bilhete getBilhete() {
-        return bilhetes.isEmpty() ? null : bilhetes.get(0);  // Retorna o primeiro bilhete ou null se a lista estiver vazia
+        return bilhetes.isEmpty() ? null : bilhetes.get(0); // Retorna o primeiro bilhete ou null se a lista estiver
+                                                            // vazia
     }
 }

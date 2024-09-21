@@ -24,7 +24,8 @@ public class PassageiroTest {
     public void testCadastrarBilhete() {
         passageiro.cadastrarBilhete(bilhete);
         assertEquals(1, passageiro.getBilhetes().size(), "Deve haver um bilhete cadastrado");
-        assertEquals(bilhete, passageiro.getBilhetes().get(0), "O bilhete adicionado deve ser o mesmo que foi cadastrado");
+        assertEquals(bilhete, passageiro.getBilhetes().get(0),
+                "O bilhete adicionado deve ser o mesmo que foi cadastrado");
     }
 
     @Test

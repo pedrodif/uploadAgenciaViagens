@@ -14,7 +14,7 @@ public class Main {
         Bilhete bilhete = new Bilhete(passageiro);
 
         // Setando valores de exemplo no bilhete
-        bilhete.setValorTotalSemBagagem(new BigDecimal("1000.00"));  // Valor sem bagagem
+        bilhete.setValorTotalSemBagagem(new BigDecimal("1000.00")); // Valor sem bagagem
 
         // Testando o cálculo de valor total do bilhete (com bagagem extra)
         BigDecimal valorTotal = bilhete.calcularValorTotal();
