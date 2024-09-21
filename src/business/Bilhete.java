@@ -12,8 +12,10 @@ public class Bilhete {
 
     public Bilhete(double valorTotalSemBagagem, List<Voo> voos) {
         this.valorTotalSemBagagem = valorTotalSemBagagem;
-        this.voos = voos; 
+        this.voos = voos;
+        calcularValorTotal();
     }
+
 
     public double calcularValorTotal() {
         calcularValorComBaseNosVoos(); 
