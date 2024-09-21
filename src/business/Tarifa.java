@@ -1,35 +1,36 @@
 package business;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-
 public class Tarifa {
     private Moeda moeda;
     private TipoVoo tipoVoo;
-    private BigDecimal basica, business, premium, bagagem, bagagemAdicional;
-    private static final BigDecimal VALOR_DOLAR = new BigDecimal("5.52");
+    private double basica, business, premium, bagagem, bagagemAdicional;
+    private static final double VALOR_DOLAR = 5.52;
 
-    public Tarifa(String tipoVoo, String moeda){
+    public Tarifa(String tipoVoo, String moeda) throws Exception{
         try {
             this.tipoVoo = TipoVoo.valueOf(tipoVoo.toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Tipo do voo inválido");
+            throw new IllegalArgumentException("Tipo do voo inválido.");
         }
 
         try {
             this.moeda = Moeda.valueOf(moeda.toUpperCase());
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Tipo de moeda inválida");
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Tipo de moeda inválida.");
+        }
+
+        if(this.tipoVoo.equals(TipoVoo.DOMESTICO) && this.moeda.equals(Moeda.DOLAR)){
+            throw new Exception("É necessário utilizar o real como moeda para voos domésticos.");
         }
     }
 
-    private BigDecimal aplicarConversaoMonetaria(BigDecimal valor) throws Exception{
-        if(valor.compareTo(BigDecimal.ZERO) <= 0){
-            throw new IllegalArgumentException("O valor informado deve ser maior que zero");
+    private double aplicarConversaoMonetaria(double valor) throws Exception{
+        if(valor <= 0){
+            throw new IllegalArgumentException("O valor informado deve ser maior que zero.");
         }
 
         if(this.moeda == Moeda.REAL && tipoVoo.equals(TipoVoo.INTERNACIONAL)) {
-            return valor.divide(VALOR_DOLAR, RoundingMode.HALF_UP);
+            return Math.round((valor / VALOR_DOLAR) * 100.0) / 100.0;
         }
        
         return valor;
@@ -39,43 +40,43 @@ public class Tarifa {
         return tipoVoo;
     }
 
-    public BigDecimal getBasica() {
+    public double getBasica() {
         return basica;
     }
 
-    public void setBasica(BigDecimal basica) throws Exception {
+    public void setBasica(double basica) throws Exception {
         this.basica = aplicarConversaoMonetaria(basica);
     }
 
-    public BigDecimal getBusiness() {
+    public double getBusiness() {
         return business;
     }
 
-    public void setBusiness(BigDecimal business) throws Exception {
+    public void setBusiness(double business) throws Exception {
         this.business = aplicarConversaoMonetaria(business);
     }
 
-    public BigDecimal getPremium() {
+    public double getPremium() {
         return premium;
     }
 
-    public void setPremium(BigDecimal premium) throws Exception {
+    public void setPremium(double premium) throws Exception {
         this.premium = aplicarConversaoMonetaria(premium);
     }
 
-    public BigDecimal getBagagem() {
+    public double getBagagem() {
         return bagagem;
     }
 
-    public void setBagagem(BigDecimal bagagem) throws Exception {
+    public void setBagagem(double bagagem) throws Exception {
         this.bagagem = aplicarConversaoMonetaria(bagagem);
     }
 
-    public BigDecimal getBagagemAdicional() {
+    public double getBagagemAdicional() {
         return bagagemAdicional;
     }
 
-    public void setBagagemAdicional(BigDecimal bagagemAdicional) throws Exception {
+    public void setBagagemAdicional(double bagagemAdicional) throws Exception {
         this.bagagemAdicional = aplicarConversaoMonetaria(bagagemAdicional);
     }
 }
