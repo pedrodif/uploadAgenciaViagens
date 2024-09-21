@@ -51,13 +51,13 @@ public class TarifaTest {
     }
 
     @Test
-    void testCriarTarifaPrimeiroErro() {
+    void testCriarTarifaCasoErro1() {
         IllegalArgumentException excecao = assertThrows(IllegalArgumentException.class, () -> new Tarifa("nacional", "real"));
         assertEquals(excecao.getMessage(), "Tipo do voo inválido.");
     }
 
     @Test
-    void testCriarTarifaSegundoErro() {
+    void testCriarTarifaCasErro2() {
         Exception excecao = assertThrows(Exception.class, () -> new Tarifa("domestico", "dolar"));
         assertEquals(excecao.getMessage(), "É necessário utilizar o real como moeda para voos domésticos.");
     }
