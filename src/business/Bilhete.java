@@ -8,15 +8,15 @@ public class Bilhete {
     private double valorTotalSemBagagem;
     private TipoDocumento tipoDocumento;
     private double remuneracaoAgencia;
-    private List<Voo> voos; // Lista de voos
+    private List<Voo> voos;
 
-    public Bilhete(double valorTotalSemBagagem, List<Voo> voos) { // Construtor que recebe o valor sem bagagem e a lista de voos
+    public Bilhete(double valorTotalSemBagagem, List<Voo> voos) {
         this.valorTotalSemBagagem = valorTotalSemBagagem;
-        this.voos = voos; // Inicializa a lista de voos
+        this.voos = voos; 
     }
 
     public double calcularValorTotal() {
-        calcularValorComBaseNosVoos(); // Calcula o valor baseado nos voos
+        calcularValorComBaseNosVoos(); 
         return valorTotal;
     }
 
@@ -27,9 +27,9 @@ public class Bilhete {
     public double calcularRemuneracaoAgencia() {
         calcularValorTotal();
         if (valorTotal != 0.0) {
-            this.remuneracaoAgencia = valorTotal * 0.10; // 10%
+            this.remuneracaoAgencia = valorTotal * 0.10;
         }
-        return remuneracaoAgencia; // Retorna o valor calculado
+        return remuneracaoAgencia;
     }
 
     public double getValorTotal() {
@@ -55,8 +55,8 @@ public class Bilhete {
     private void calcularValorComBaseNosVoos() {
         double tarifaTotal = 0.0;
         for (Voo voo : voos) {
-            tarifaTotal += voo.getTarifa(); // Supondo que Voo tenha um método getTarifa()
+            tarifaTotal += voo.getTarifa();
         }
-        this.valorTotal = tarifaTotal + valorTotalSemBagagem; // Soma as tarifas aos valores
+        this.valorTotal = tarifaTotal + valorTotalSemBagagem;
     }
 }

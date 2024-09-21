@@ -19,7 +19,7 @@ public class PassageiroTest {
     @BeforeEach
     public void setUp() {
         passageiro = new Passageiro("João", "123456", "A123456789");
-        bilhete1 = new Bilhete(100.00, Arrays.asList(new Voo(200.00))); // Valor sem bagagem
+        bilhete1 = new Bilhete(100.00, Arrays.asList(new Voo(200.00)));
         bilhete2 = new Bilhete(150.00, Arrays.asList(new Voo(250.00)));
         passageiro.adicionarBilhete(bilhete1);
         passageiro.adicionarBilhete(bilhete2);

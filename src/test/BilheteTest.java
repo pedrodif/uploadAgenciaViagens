@@ -18,10 +18,10 @@ public class BilheteTest {
 
     @BeforeEach
     public void setUp() {
-        Voo voo1 = new Voo(100.00); // Valor fictício para tarifa
+        Voo voo1 = new Voo(100.00);
         Voo voo2 = new Voo(150.00);
         voos = Arrays.asList(voo1, voo2);
-        bilhete = new Bilhete(50.00, voos); // Valor sem bagagem
+        bilhete = new Bilhete(50.00, voos);
     }
 
     @Test
