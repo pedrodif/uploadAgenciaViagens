@@ -1,51 +1,44 @@
 package test;
 
-import business.Passageiro;
-import business.Bilhete;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
+
+import business.Bilhete;
+import business.Voo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BilheteTest {
-    private Passageiro passageiro;
+
     private Bilhete bilhete;
+    private List<Voo> voos;
 
     @BeforeEach
     public void setUp() {
-        passageiro = new Passageiro("João", "12345678", "BR12345");
-        bilhete = new Bilhete(passageiro);
-        bilhete.setValorTotalSemBagagem(new BigDecimal("1000.00"));
-        passageiro.cadastrarBilhete(bilhete);
+        Voo voo1 = new Voo(100.00); // Valor fictício para tarifa
+        Voo voo2 = new Voo(150.00);
+        voos = Arrays.asList(voo1, voo2);
+        bilhete = new Bilhete(50.00, voos); // Valor sem bagagem
     }
 
     @Test
     public void testCalcularValorTotal() {
-        BigDecimal valorTotal = bilhete.calcularValorTotal();
-        assertEquals(new BigDecimal("1050.00"), valorTotal);
+        double valorTotal = bilhete.calcularValorTotal();
+        assertEquals(300.00, valorTotal, "O valor total deve ser a soma das tarifas e o valor sem bagagem");
     }
 
     @Test
     public void testCalcularValorSemBagagem() {
-        BigDecimal valorSemBagagem = bilhete.calcularValorSemBagagem();
-        assertEquals(new BigDecimal("1000.00"), valorSemBagagem);
+        double valorSemBagagem = bilhete.calcularValorSemBagagem();
+        assertEquals(50.00, valorSemBagagem, "O valor sem bagagem deve ser igual ao valor informado");
     }
 
     @Test
     public void testCalcularRemuneracaoAgencia() {
-        bilhete.calcularValorTotal();
-        bilhete.calcularRemuneracaoAgencia();
-
-        BigDecimal expectedComissao = bilhete.getValorTotal().multiply(new BigDecimal("0.10"));
-        assertEquals(expectedComissao, bilhete.getRemuneracaoAgencia());
+        double remuneracao = bilhete.calcularRemuneracaoAgencia();
+        assertEquals(30.00, remuneracao, "A remuneração da agência deve ser 10% do valor total");
     }
-
-    @Test
-    public void testGetters() {
-        assertEquals(passageiro, bilhete.getPassageiro());
-    }
-
-    // Testes Voos
 }

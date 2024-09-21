@@ -1,13 +1,14 @@
 package business;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Passageiro {
     private String rg;
     private String nome;
     private String numeroPassaporte;
-    private List<Bilhete> bilhetes; // Vários bilhetes
+    private List<Bilhete> bilhetes; // Lista de bilhetes gerenciada pelo passageiro
 
     public Passageiro(String nome, String rg, String numeroPassaporte) {
         this.nome = nome;
@@ -16,44 +17,42 @@ public class Passageiro {
         this.bilhetes = new ArrayList<>();
     }
 
-    public void cadastrarBilhete(Bilhete bilhete) {
-        this.bilhetes.add(bilhete); // Adiciona o bilhete à lista
+    // Método para adicionar um novo bilhete
+    public void adicionarBilhete(Bilhete bilhete) {
+        if (bilhete != null) {
+            this.bilhetes.add(bilhete); // O passageiro gerencia a adição dos bilhetes
+        }
     }
 
+    // Método para remover um bilhete
     public void removerBilhete(Bilhete bilhete) {
-        this.bilhetes.remove(bilhete); // Remove o bilhete da lista
+        this.bilhetes.remove(bilhete); // O passageiro gerencia a remoção dos bilhetes
+    }
+
+    // Retornar a lista de bilhetes imutável para manter a integridade
+    public List<Bilhete> getBilhetes() {
+        return Collections.unmodifiableList(bilhetes);
     }
 
     public String getRg() {
         return rg;
     }
 
-    public void setRg(String rg) {
-        this.rg = rg;
-    }
-
     public String getNome() {
         return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public String getNumeroPassaporte() {
         return numeroPassaporte;
     }
 
-    public void setNumeroPassaporte(String numeroPassaporte) {
-        this.numeroPassaporte = numeroPassaporte;
+    // Método para calcular o valor total dos bilhetes
+    public double calcularValorTotalBilhetes() {
+        return bilhetes.stream().mapToDouble(Bilhete::getValorTotal).sum();
     }
 
-    public List<Bilhete> getBilhetes() {
-        return bilhetes;
-    }
-
-    public Bilhete getBilhete() {
-        return bilhetes.isEmpty() ? null : bilhetes.get(0); // Retorna o primeiro bilhete ou null se a lista estiver
-                                                            // vazia
+    // Método para calcular o valor total dos bilhetes sem bagagem
+    public double calcularValorTotalSemBagagem() {
+        return bilhetes.stream().mapToDouble(Bilhete::getValorTotalSemBagagem).sum();
     }
 }

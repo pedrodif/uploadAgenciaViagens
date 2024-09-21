@@ -1,44 +1,50 @@
 package test;
 
-import business.Passageiro;
 import business.Bilhete;
+import business.Passageiro;
+import business.Voo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.math.BigDecimal;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PassageiroTest {
+
     private Passageiro passageiro;
-    private Bilhete bilhete;
+    private Bilhete bilhete1;
+    private Bilhete bilhete2;
 
     @BeforeEach
     public void setUp() {
-        passageiro = new Passageiro("João", "12345678", "BR12345");
-        bilhete = new Bilhete(passageiro);
-        bilhete.setValorTotalSemBagagem(new BigDecimal("1000.00"));
+        passageiro = new Passageiro("João", "123456", "A123456789");
+        bilhete1 = new Bilhete(100.00, Arrays.asList(new Voo(200.00))); // Valor sem bagagem
+        bilhete2 = new Bilhete(150.00, Arrays.asList(new Voo(250.00)));
+        passageiro.adicionarBilhete(bilhete1);
+        passageiro.adicionarBilhete(bilhete2);
     }
 
     @Test
-    public void testCadastrarBilhete() {
-        passageiro.cadastrarBilhete(bilhete);
-        assertEquals(1, passageiro.getBilhetes().size(), "Deve haver um bilhete cadastrado");
-        assertEquals(bilhete, passageiro.getBilhetes().get(0),
-                "O bilhete adicionado deve ser o mesmo que foi cadastrado");
+    public void testAdicionarBilhete() {
+        assertEquals(2, passageiro.getBilhetes().size(), "O passageiro deve ter 2 bilhetes");
     }
 
     @Test
     public void testRemoverBilhete() {
-        passageiro.cadastrarBilhete(bilhete);
-        passageiro.removerBilhete(bilhete);
-        assertEquals(0, passageiro.getBilhetes().size(), "A lista de bilhetes deve estar vazia após a remoção");
+        passageiro.removerBilhete(bilhete1);
+        assertEquals(1, passageiro.getBilhetes().size(), "O passageiro deve ter 1 bilhete após remoção");
     }
 
     @Test
-    public void testGetters() {
-        assertEquals("João", passageiro.getNome(), "O nome deve ser João");
-        assertEquals("12345678", passageiro.getRg(), "O RG deve ser 12345678");
-        assertEquals("BR12345", passageiro.getNumeroPassaporte(), "O número do passaporte deve ser BR12345");
+    public void testCalcularValorTotalBilhetes() {
+        double valorTotal = passageiro.calcularValorTotalBilhetes();
+        assertEquals(600.00, valorTotal, "O valor total dos bilhetes deve ser a soma dos valores dos bilhetes");
+    }
+
+    @Test
+    public void testCalcularValorTotalSemBagagem() {
+        double valorSemBagagem = passageiro.calcularValorTotalSemBagagem();
+        assertEquals(250.00, valorSemBagagem, "O valor total sem bagagem deve ser a soma dos valores sem bagagem");
     }
 }

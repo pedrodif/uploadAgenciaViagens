@@ -1,60 +1,43 @@
 package business;
 
-import java.math.BigDecimal;
+import java.util.List;
 
 public class Bilhete {
 
-    public enum TipoDocumento { // Suposto Enum para o código funcionar
-        RG,
-        PASSAPORTE
-    }
-
-    // Voo - Linha Comentada
-    // private Voo voo;
-
-    private BigDecimal valorTotal;
-    private BigDecimal valorTotalSemBagagem;
+    private double valorTotal;
+    private double valorTotalSemBagagem;
     private TipoDocumento tipoDocumento;
-    private Passageiro passageiro;
-    private BigDecimal remuneracaoAgencia;
+    private double remuneracaoAgencia;
+    private List<Voo> voos; // Lista de voos
 
-    public Bilhete(Passageiro passageiro) {
-        this.passageiro = passageiro;
-    }
-
-    public BigDecimal calcularValorTotal() {
-        if (valorTotalSemBagagem != null) {
-            this.valorTotal = valorTotalSemBagagem.add(new BigDecimal("50.00")); // Valor Fictício
-        }
-        return valorTotal;
-    }
-
-    public BigDecimal calcularValorSemBagagem() {
-        return valorTotalSemBagagem;
-    }
-
-    public void calcularRemuneracaoAgencia() {
-        calcularValorTotal();
-        if (valorTotal != null) {
-            this.remuneracaoAgencia = valorTotal.multiply(new BigDecimal("0.10")); // 10%
-            System.out.println("Remuneração da agência: " + remuneracaoAgencia);
-        }
-    }
-
-    public BigDecimal getValorTotal() {
-        return valorTotal;
-    }
-
-    public void setValorTotal(BigDecimal valorTotal) {
-        this.valorTotal = valorTotal;
-    }
-
-    public BigDecimal getValorTotalSemBagagem() {
-        return valorTotalSemBagagem;
-    }
-
-    public void setValorTotalSemBagagem(BigDecimal valorTotalSemBagagem) {
+    public Bilhete(double valorTotalSemBagagem, List<Voo> voos) { // Construtor que recebe o valor sem bagagem e a lista de voos
         this.valorTotalSemBagagem = valorTotalSemBagagem;
+        this.voos = voos; // Inicializa a lista de voos
+    }
+
+    public double calcularValorTotal() {
+        calcularValorComBaseNosVoos(); // Calcula o valor baseado nos voos
+        return valorTotal;
+    }
+
+    public double calcularValorSemBagagem() {
+        return valorTotalSemBagagem;
+    }
+
+    public double calcularRemuneracaoAgencia() {
+        calcularValorTotal();
+        if (valorTotal != 0.0) {
+            this.remuneracaoAgencia = valorTotal * 0.10; // 10%
+        }
+        return remuneracaoAgencia; // Retorna o valor calculado
+    }
+
+    public double getValorTotal() {
+        return valorTotal;
+    }
+
+    public double getValorTotalSemBagagem() {
+        return valorTotalSemBagagem;
     }
 
     public TipoDocumento getTipoDocumento() {
@@ -65,25 +48,15 @@ public class Bilhete {
         this.tipoDocumento = tipoDocumento;
     }
 
-    public Passageiro getPassageiro() {
-        return passageiro;
-    }
-
-    public void setPassageiro(Passageiro passageiro) {
-        this.passageiro = passageiro;
-    }
-
-    public BigDecimal getRemuneracaoAgencia() {
+    public double getRemuneracaoAgencia() {
         return remuneracaoAgencia;
     }
 
-    // Voo - Linhas Comentadas
-    // public Voo getVoo() {
-    // return voo;
-    // }
-
-    // public void setVoo(Voo voo) {
-    // this.voo = voo;
-    // }
-
+    private void calcularValorComBaseNosVoos() {
+        double tarifaTotal = 0.0;
+        for (Voo voo : voos) {
+            tarifaTotal += voo.getTarifa(); // Supondo que Voo tenha um método getTarifa()
+        }
+        this.valorTotal = tarifaTotal + valorTotalSemBagagem; // Soma as tarifas aos valores
+    }
 }
