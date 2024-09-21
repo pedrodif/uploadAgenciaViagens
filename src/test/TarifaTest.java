@@ -57,7 +57,7 @@ public class TarifaTest {
     }
 
     @Test
-    void testCriarTarifaCasErro2() {
+    void testCriarTarifaCasoErro2() {
         Exception excecao = assertThrows(Exception.class, () -> new Tarifa("domestico", "dolar"));
         assertEquals(excecao.getMessage(), "É necessário utilizar o real como moeda para voos domésticos.");
     }
