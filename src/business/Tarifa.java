@@ -37,11 +37,11 @@ public class Tarifa {
     }
 
     public TipoVoo getTipoVoo() {
-        return tipoVoo;
+        return this.tipoVoo;
     }
 
     public double getBasica() {
-        return basica;
+        return this.basica;
     }
 
     public void setBasica(double basica) throws Exception {
@@ -49,7 +49,7 @@ public class Tarifa {
     }
 
     public double getBusiness() {
-        return business;
+        return this.business;
     }
 
     public void setBusiness(double business) throws Exception {
@@ -57,7 +57,7 @@ public class Tarifa {
     }
 
     public double getPremium() {
-        return premium;
+        return this.premium;
     }
 
     public void setPremium(double premium) throws Exception {
@@ -65,7 +65,7 @@ public class Tarifa {
     }
 
     public double getBagagem() {
-        return bagagem;
+        return this.bagagem;
     }
 
     public void setBagagem(double bagagem) throws Exception {
@@ -73,7 +73,7 @@ public class Tarifa {
     }
 
     public double getBagagemAdicional() {
-        return bagagemAdicional;
+        return this.bagagemAdicional;
     }
 
     public void setBagagemAdicional(double bagagemAdicional) throws Exception {
