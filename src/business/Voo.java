@@ -46,7 +46,7 @@ public class Voo {
     public String getCodigo() {
         return this.codigo;
     }
-
+    
     public Tarifa getTarifa() {
         return this.tarifa;
     }
@@ -91,11 +91,12 @@ public class Voo {
         }
     }
 
-    public double getValorBagagem() {
+    public double getValorBagagem() throws Exception {
+        this.recuperarValorBagagem();
         return this.valorBagagem;
     }
 
-    public void recuperarValorBagagem() throws Exception {
+    private void recuperarValorBagagem() throws Exception {
         if (this.bagagem == null) {
             throw new Exception("O tipo de bagagem deve ser escolhido antes de calcular seu valor.");
         } else {
@@ -118,20 +119,20 @@ public class Voo {
         try {
             this.classe = ClasseVoo.valueOf(classe.toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Classe inválida.");
+            throw new IllegalArgumentException("Classe de voo indisponível.");
         }
     }
 
-    public double getValorPassagem() {
+    public double getValorPassagem() throws Exception {
+        this.recuperarValorPassagem();
         return this.valorPassagem;
     }
 
-    public void recuperarValorPassagem() throws Exception {
-        recuperarValorBagagem();
-
+    private void recuperarValorPassagem() throws Exception {
         if (this.classe == null) {
             throw new Exception("A classe deve ser escolhida antes de calcular o valor da passagem.");
         } else {
+            this.recuperarValorBagagem();
             switch (this.classe) {
                 case ClasseVoo.BUSINESS:
                     this.valorPassagem = this.tarifa.getBusiness() + this.valorBagagem;
@@ -145,6 +146,4 @@ public class Voo {
             }
         }
     }
-
-   
 }
