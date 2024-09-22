@@ -6,7 +6,6 @@ O espaço de trabalho contém duas pastas por padrão:
   - `business`: classes principais
   - `test`: testes das classes
   - `enums`: enums
-- `lib`: a pasta para manter as dependências
 
 Enquanto isso, os arquivos de saída compilados serão gerados, por padrão, na pasta `bin`.
 
