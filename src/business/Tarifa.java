@@ -32,7 +32,7 @@ public class Tarifa {
             throw new IllegalArgumentException("O valor informado deve ser maior que zero.");
         }
 
-        if(this.moeda == Moeda.REAL && tipoVoo.equals(TipoVoo.INTERNACIONAL)) {
+        if(this.moeda == Moeda.REAL && this.tipoVoo.equals(TipoVoo.INTERNACIONAL)) {
             return Math.round((valor / VALOR_DOLAR) * 100.0) / 100.0;
         }
        

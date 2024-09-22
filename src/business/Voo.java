@@ -2,6 +2,7 @@ package business;
 
 import enums.Bagagem;
 import enums.ClasseVoo;
+
 import java.util.Random;
 import java.time.LocalDateTime;
 
