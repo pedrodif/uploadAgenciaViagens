@@ -1,5 +1,7 @@
 package business;
 
+import enums.Bagagem;
+import enums.ClasseVoo;
 import java.util.Random;
 import java.time.LocalDateTime;
 
@@ -76,18 +78,6 @@ public class Voo {
         this.dtHrChegada = LocalDateTime.of(ano, mes, dia, horas, minutos);
     }
 
-    public ClasseVoo getClasse() {
-        return this.classe;
-    }
-
-    public void escolherClasse(String classe) throws Exception {
-        try {
-            this.classe = ClasseVoo.valueOf(classe.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Classe inválida");
-        }
-    }
-
     public Bagagem getBagagem() {
         return this.bagagem;
     }
@@ -96,29 +86,7 @@ public class Voo {
         try {
             this.bagagem = Bagagem.valueOf(bagagem.toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Tipo de bagagem inválida");
-        }
-    }
-
-    public double getValorPassagem() {
-        return this.valorPassagem;
-    }
-
-    public void calcularValorPassagem() throws Exception {
-        if (this.classe == null) {
-            throw new Exception("A classe deve ser escolhida antes de calcular o valor da passagem.");
-        } else {
-            switch (this.classe) {
-                case ClasseVoo.BUSINESS:
-                    this.valorPassagem = this.tarifa.getBusiness();
-                    break;
-                case ClasseVoo.PREMIUM:
-                    this.valorPassagem = this.tarifa.getPremium();
-                    break;
-                default:
-                    this.valorPassagem = this.tarifa.getBasica();
-                    break;
-            }
+            throw new IllegalArgumentException("Tipo de bagagem inválida.");
         }
     }
 
@@ -126,9 +94,9 @@ public class Voo {
         return this.valorBagagem;
     }
 
-    public void calcularValorBagagem() throws Exception {
+    public void recuperarValorBagagem() throws Exception {
         if (this.bagagem == null) {
-            throw new Exception("O tipo de babgem deve ser escolhido antes de calcular o seu valor");
+            throw new Exception("O tipo de bagagem deve ser escolhido antes de calcular seu valor.");
         } else {
             switch (this.bagagem) {
                 case Bagagem.ADICIONAL:
@@ -140,4 +108,42 @@ public class Voo {
             }
         }
     }
+
+    public ClasseVoo getClasse() {
+        return this.classe;
+    }
+
+    public void escolherClasse(String classe) throws Exception {
+        try {
+            this.classe = ClasseVoo.valueOf(classe.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Classe inválida.");
+        }
+    }
+
+    public double getValorPassagem() {
+        return this.valorPassagem;
+    }
+
+    public void recuperarValorPassagem() throws Exception {
+        recuperarValorBagagem();
+
+        if (this.classe == null) {
+            throw new Exception("A classe deve ser escolhida antes de calcular o valor da passagem.");
+        } else {
+            switch (this.classe) {
+                case ClasseVoo.BUSINESS:
+                    this.valorPassagem = this.tarifa.getBusiness() + this.valorBagagem;
+                    break;
+                case ClasseVoo.PREMIUM:
+                    this.valorPassagem = this.tarifa.getPremium() + this.valorBagagem;
+                    break;
+                default:
+                    this.valorPassagem = this.tarifa.getBasica() + this.valorBagagem;
+                    break;
+            }
+        }
+    }
+
+   
 }

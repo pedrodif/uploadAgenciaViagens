@@ -1,4 +1,4 @@
-package business;
+package enums;
 
 public enum Moeda {
     DOLAR, REAL

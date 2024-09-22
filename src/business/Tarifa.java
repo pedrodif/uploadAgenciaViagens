@@ -1,5 +1,8 @@
 package business;
 
+import enums.Moeda;
+import enums.TipoVoo;
+
 public class Tarifa {
     private Moeda moeda;
     private TipoVoo tipoVoo;
