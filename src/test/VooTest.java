@@ -5,11 +5,14 @@ import static org.junit.Assert.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
+import java.util.regex.Pattern;
 
-import business.Voo;
 import enums.Bagagem;
 import enums.ClasseVoo;
+
+import business.Voo;
 import business.CiaArea;
+import business.CodigoVoo;
 import business.Aeroporto;
 
 public class VooTest {
@@ -28,6 +31,13 @@ public class VooTest {
     @Test
     void testCriarVoo(){
         assertNotNull(this.voo);
+    }
+
+    @Test
+    void testGerarCodigo() {
+        String codigo = CodigoVoo.gerarCodigo();
+        Pattern padrao = Pattern.compile("^[A-Z]{2}\\d{4}$");
+        assertTrue(padrao.matcher(codigo).matches());
     }
 
     @BeforeEach
