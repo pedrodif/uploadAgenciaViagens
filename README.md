@@ -7,8 +7,4 @@ O espaço de trabalho contém duas pastas por padrão:
   - `test`: testes das classes
   - `enums`: enums
 
-Enquanto isso, os arquivos de saída compilados serão gerados, por padrão, na pasta `bin`.
 
-## Gerenciamento de Dependências
-
-A visualização `JAVA PROJECTS` permite gerenciar suas dependências. Mais detalhes podem ser encontrados [aqui](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
