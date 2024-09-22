@@ -8,7 +8,7 @@ public class Passageiro {
     private String rg;
     private String nome;
     private String numeroPassaporte;
-    private List<Bilhete> bilhetes;
+    private ArrayList<Bilhete> bilhetes;
 
     public Passageiro(String nome, String rg, String numeroPassaporte) {
         this.nome = nome;
