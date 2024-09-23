@@ -1,5 +1,8 @@
 package business;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,12 +15,11 @@ public class CiaAerea {
 
     public CiaAerea() { }
 
-    public CiaAerea(String nome, String razaoSocial, String cnpj, ArrayList<Voo> voos) {
+    public CiaAerea(String nome, String razaoSocial, String cnpj) {
         this.codigo = UUID.randomUUID();
         this.nome = nome;
         this.razaoSocial = razaoSocial;
         this.cnpj = cnpj;
-        this.voos = voos;
     }
 
     public UUID getCodigo() {
@@ -62,5 +64,25 @@ public class CiaAerea {
 
     public void removerVoo(Voo voo) {
         this.voos.remove(voo);
+    }
+
+    public List<Voo> pesquisarVoos(LocalDateTime dataPartida) {
+        List<Voo> voosEncontrados = new ArrayList<>();
+        for (Voo voo : this.voos) {
+            if (voo.getDtHrPartida() != null && voo.getDtHrPartida().toLocalDate().equals(dataPartida.toLocalDate())) {
+                voosEncontrados.add(voo);
+            }
+        }
+    return voosEncontrados;
+    }
+
+    public List<Voo> pesquisarVoos(String cidadePartida) {
+        List<Voo> voosEncontrados = new ArrayList<>();
+        for (Voo voo : this.voos) {
+            if (voo.getLocalPartida() != null && voo.getLocalPartida().getCidade().equalsIgnoreCase(cidadePartida)) {
+                voosEncontrados.add(voo);
+            }
+        }
+        return voosEncontrados;
     }
 }
