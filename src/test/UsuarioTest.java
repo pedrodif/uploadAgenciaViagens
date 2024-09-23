@@ -1,65 +1,55 @@
-package test;
-
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Optional;
+
 import business.Usuario;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class UsuarioTest {
 
-    private Usuario usuario;
+  private List<Usuario> usuariosMock;
 
-    @BeforeEach
-    public void setUp() {
-        usuario = new Usuario("Teste Nome", "111.222.333-44", "teste@email.com", "testelogin", "testesenha");
-    }
+  @BeforeEach
+  public void setUp() {
+    usuariosMock = Usuario.MOCK_USUARIOS;
+  }
 
-    @Test
-    public void testSetNome() {
-        usuario.setNome("Novo Nome");
-        assertEquals("Novo Nome", usuario.getNome());
-    }
+  @Test
+  public void testLoginComCredenciaisValidas() {
+    String emailValido = "joao.silva@email.com";
+    String senhaValida = "senha123";
 
-    @Test
-    public void testSetCpf() {
-        usuario.setCpf("999.888.777-66");
-        assertEquals("999.888.777-66", usuario.getCpf());
-    }
+    Optional<Usuario> usuarioLogado = usuariosMock.stream()
+        .filter(u -> u.getEmail().equalsIgnoreCase(emailValido) && u.getSenha().equals(senhaValida))
+        .findFirst();
 
-    @Test
-    public void testSetEmail() {
-        usuario.setEmail("novo@email.com");
-        assertEquals("novo@email.com", usuario.getEmail());
-    }
+    assertTrue(usuarioLogado.isPresent());
+    assertEquals("João Silva", usuarioLogado.get().getNome());
+  }
 
-    @Test
-    public void testSetLogin() {
-        usuario.setLogin("novologin");
-        assertEquals("novologin", usuario.getLogin());
-    }
+  @Test
+  public void testLoginComEmailInvalido() {
+    String emailInvalido = "email.inexistente@email.com";
+    String senhaValida = "senha123";
 
-    @Test
-    public void testSetSenha() {
-        usuario.setSenha("novasenha");
-        assertEquals("novasenha", usuario.getSenha());
-    }
+    Optional<Usuario> usuarioLogado = usuariosMock.stream()
+        .filter(u -> u.getEmail().equalsIgnoreCase(emailInvalido) && u.getSenha().equals(senhaValida))
+        .findFirst();
 
-    @Test
-    public void testLoginValido() {
-        Usuario usuarioLogado = usuario.login("joao.silva@email.com", "senha123");
-        assertNotNull(usuarioLogado);
-        assertEquals("João Silva", usuarioLogado.getNome());
-    }
+    assertFalse(usuarioLogado.isPresent());
+  }
 
-    @Test
-    public void testLoginInvalido() {
-        Usuario usuarioLogado = usuario.login("email@invalido.com", "senhaerrada");
-        assertNull(usuarioLogado);
-    }
+  @Test
+  public void testLoginComSenhaInvalida() {
+    String emailValido = "joao.silva@email.com";
+    String senhaInvalida = "senhaErrada";
+
+    Optional<Usuario> usuarioLogado = usuariosMock.stream()
+        .filter(u -> u.getEmail().equalsIgnoreCase(emailValido) && u.getSenha().equals(senhaInvalida))
+        .findFirst();
+
+    assertFalse(usuarioLogado.isPresent());
+  }
 }

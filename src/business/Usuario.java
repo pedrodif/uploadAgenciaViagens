@@ -10,7 +10,8 @@ public class Usuario {
     private String email;
     private String login;
     private String senha;
-        public static List<Usuario> MOCK_USUARIOS = Arrays.asList(
+
+    public static List<Usuario> MOCK_USUARIOS = Arrays.asList(
         new Usuario("João Silva", "123.456.789-00", "joao.silva@email.com", "joaosilva", "senha123"),
         new Usuario("Maria Souza", "987.654.321-00", "maria.souza@email.com", "mariasouza", "senha456"),
         new Usuario("Pedro Lima", "456.123.789-00", "pedro.lima@email.com", "pedrolima", "senha789")
