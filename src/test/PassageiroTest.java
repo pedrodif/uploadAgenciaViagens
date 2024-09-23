@@ -1,50 +1,83 @@
 package test;
 
 import business.Bilhete;
+import business.Funcionario;
 import business.Passageiro;
 import business.Voo;
-import org.junit.jupiter.api.BeforeEach;
+import enums.Bagagem;
+import enums.ClasseVoo;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PassageiroTest {
 
-    private Passageiro passageiro;
-    private Bilhete bilhete1;
-    private Bilhete bilhete2;
-
-    @BeforeEach
-    public void setUp() {
-        passageiro = new Passageiro("João", "123456", "A123456789");
-        bilhete1 = new Bilhete(100.00, Arrays.asList(new Voo(200.00)));
-        bilhete2 = new Bilhete(150.00, Arrays.asList(new Voo(250.00)));
-        passageiro.adicionarBilhete(bilhete1);
-        passageiro.adicionarBilhete(bilhete2);
-    }
-
     @Test
     public void testAdicionarBilhete() {
-        assertEquals(2, passageiro.getBilhetes().size(), "O passageiro deve ter 2 bilhetes");
+        Passageiro passageiro = new Passageiro("João", "123456789", "AB123456");
+        Funcionario funcionario = new Funcionario("123", "Maria", "98765");
+        Voo voo = criarVoo(100.0, 50.0, ClasseVoo.BASICA, Bagagem.PRIMEIRA);
+        Bilhete bilhete = new Bilhete(150.0, Arrays.asList(voo), funcionario);
+
+        assertTrue(passageiro.adicionarBilhete(bilhete));
+        assertEquals(1, passageiro.getBilhetes().size());
     }
 
     @Test
     public void testRemoverBilhete() {
-        passageiro.removerBilhete(bilhete1);
-        assertEquals(1, passageiro.getBilhetes().size(), "O passageiro deve ter 1 bilhete após remoção");
+        Passageiro passageiro = new Passageiro("João", "123456789", "AB123456");
+        Funcionario funcionario = new Funcionario("123", "Maria", "98765");
+        Voo voo = criarVoo(100.0, 50.0, ClasseVoo.BASICA, Bagagem.PRIMEIRA);
+        Bilhete bilhete = new Bilhete(150.0, Arrays.asList(voo), funcionario);
+
+        passageiro.adicionarBilhete(bilhete);
+        assertTrue(passageiro.removerBilhete(bilhete));
+        assertEquals(0, passageiro.getBilhetes().size());
     }
 
     @Test
     public void testCalcularValorTotalBilhetes() {
-        double valorTotal = passageiro.calcularValorTotalBilhetes();
-        assertEquals(600.00, valorTotal, "O valor total dos bilhetes deve ser a soma dos valores dos bilhetes");
+        Passageiro passageiro = new Passageiro("João", "123456789", "AB123456");
+        Funcionario funcionario = new Funcionario("123", "Maria", "98765");
+        Voo voo1 = criarVoo(100.0, 50.0, ClasseVoo.BASICA, Bagagem.PRIMEIRA);
+        Voo voo2 = criarVoo(200.0, 70.0, ClasseVoo.PREMIUM, Bagagem.ADICIONAL);
+        Bilhete bilhete1 = new Bilhete(150.0, Arrays.asList(voo1), funcionario);
+        Bilhete bilhete2 = new Bilhete(300.0, Arrays.asList(voo2), funcionario);
+
+        passageiro.adicionarBilhete(bilhete1);
+        passageiro.adicionarBilhete(bilhete2);
+
+        assertEquals(450.0, passageiro.calcularValorTotalBilhetes());
     }
 
     @Test
     public void testCalcularValorTotalSemBagagem() {
-        double valorSemBagagem = passageiro.calcularValorTotalSemBagagem();
-        assertEquals(250.00, valorSemBagagem, "O valor total sem bagagem deve ser a soma dos valores sem bagagem");
+        Passageiro passageiro = new Passageiro("João", "123456789", "AB123456");
+        Funcionario funcionario = new Funcionario("123", "Maria", "98765");
+        Voo voo1 = criarVoo(100.0, 50.0, ClasseVoo.BASICA, Bagagem.PRIMEIRA);
+        Voo voo2 = criarVoo(200.0, 70.0, ClasseVoo.PREMIUM, Bagagem.ADICIONAL);
+        Bilhete bilhete1 = new Bilhete(150.0, Arrays.asList(voo1), funcionario);
+        Bilhete bilhete2 = new Bilhete(300.0, Arrays.asList(voo2), funcionario);
+
+        passageiro.adicionarBilhete(bilhete1);
+        passageiro.adicionarBilhete(bilhete2);
+
+        assertEquals(450.0, passageiro.calcularValorTotalSemBagagem());
+    }
+
+    private Voo criarVoo(double valorPassagem, double valorBagagem, ClasseVoo classe, Bagagem bagagem) {
+        Voo voo = new Voo(null, null, null);
+        try {
+            voo.cadastrarTarifa("Internacional", "BRL");
+            voo.cadatrarDtHrPartida(1, 1, 2025, 12, 0);
+            voo.cadatrarDtHrChegada(1, 1, 2025, 18, 0);
+            voo.escolherClasse(classe.name());
+            voo.escolherBagagem(bagagem.name());
+        } catch (Exception e) {
+            fail("Erro ao criar voo: " + e.getMessage());
+        }
+        return voo;
     }
 }

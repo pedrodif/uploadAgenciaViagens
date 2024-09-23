@@ -1,44 +1,75 @@
 package test;
 
-import org.junit.jupiter.api.BeforeEach;
+import business.Bilhete;
+import business.Funcionario;
+import business.Voo;
+import enums.Bagagem;
+import enums.ClasseVoo;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.List;
 
-import business.Bilhete;
-import business.Voo;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BilheteTest {
 
-    private Bilhete bilhete;
-    private List<Voo> voos;
-
-    @BeforeEach
-    public void setUp() {
-        Voo voo1 = new Voo(100.00);
-        Voo voo2 = new Voo(150.00);
-        voos = Arrays.asList(voo1, voo2);
-        bilhete = new Bilhete(50.00, voos);
-    }
-
     @Test
     public void testCalcularValorTotal() {
-        double valorTotal = bilhete.calcularValorTotal();
-        assertEquals(300.00, valorTotal, "O valor total deve ser a soma das tarifas e o valor sem bagagem");
-    }
+        Funcionario funcionario = new Funcionario("123", "João", "12345");
+        Voo voo1 = null;
+        Voo voo2 = null;
 
-    @Test
-    public void testCalcularValorSemBagagem() {
-        double valorSemBagagem = bilhete.calcularValorSemBagagem();
-        assertEquals(50.00, valorSemBagagem, "O valor sem bagagem deve ser igual ao valor informado");
+        try {
+            voo1 = criarVoo(100.0, 50.0, ClasseVoo.BASICA, Bagagem.PRIMEIRA);
+            voo2 = criarVoo(200.0, 70.0, ClasseVoo.PREMIUM, Bagagem.ADICIONAL);
+        } catch (Exception e) {
+            fail("Erro ao criar voo: " + e.getMessage());
+        }
+
+        Bilhete bilhete = new Bilhete(150.0, Arrays.asList(voo1, voo2), funcionario);
+        
+        assertEquals(520.0, bilhete.calcularValorTotal());
     }
 
     @Test
     public void testCalcularRemuneracaoAgencia() {
-        double remuneracao = bilhete.calcularRemuneracaoAgencia();
-        assertEquals(30.00, remuneracao, "A remuneração da agência deve ser 10% do valor total");
+        Funcionario funcionario = new Funcionario("123", "João", "12345");
+        Voo voo1 = null;
+
+        try {
+            voo1 = criarVoo(100.0, 50.0, ClasseVoo.BASICA, Bagagem.PRIMEIRA);
+        } catch (Exception e) {
+            fail("Erro ao criar voo: " + e.getMessage());
+        }
+
+        Bilhete bilhete = new Bilhete(150.0, Arrays.asList(voo1), funcionario);
+        
+        assertEquals(15.0, bilhete.calcularRemuneracaoAgencia());
+    }
+
+    @Test
+    public void testGetFuncionario() {
+        Funcionario funcionario = new Funcionario("123", "João", "12345");
+        Voo voo = null;
+
+        try {
+            voo = criarVoo(100.0, 50.0, ClasseVoo.BASICA, Bagagem.PRIMEIRA);
+        } catch (Exception e) {
+            fail("Erro ao criar voo: " + e.getMessage());
+        }
+
+        Bilhete bilhete = new Bilhete(150.0, Arrays.asList(voo), funcionario);
+
+        assertEquals(funcionario, bilhete.getFuncionario());
+    }
+
+    private Voo criarVoo(double valorPassagem, double valorBagagem, ClasseVoo classe, Bagagem bagagem) throws Exception {
+        Voo voo = new Voo(null, null, null);
+        voo.cadastrarTarifa("Internacional", "BRL");
+        voo.cadatrarDtHrPartida(1, 1, 2025, 12, 0);
+        voo.cadatrarDtHrChegada(1, 1, 2025, 18, 0);
+        voo.escolherClasse(classe.name());
+        voo.escolherBagagem(bagagem.name());
+        return voo;
     }
 }

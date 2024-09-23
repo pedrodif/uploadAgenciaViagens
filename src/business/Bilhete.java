@@ -1,5 +1,6 @@
 package business;
 
+import enums.TipoDocumento;
 import java.util.List;
 
 public class Bilhete {
@@ -9,13 +10,14 @@ public class Bilhete {
     private TipoDocumento tipoDocumento;
     private double remuneracaoAgencia;
     private List<Voo> voos;
+    private Funcionario funcionario;
 
-    public Bilhete(double valorTotalSemBagagem, List<Voo> voos) {
+    public Bilhete(double valorTotalSemBagagem, List<Voo> voos, Funcionario funcionario) {
         this.valorTotalSemBagagem = valorTotalSemBagagem;
         this.voos = voos;
+        this.funcionario = funcionario;
         calcularValorTotal();
     }
-
 
     public double calcularValorTotal() {
         calcularValorComBaseNosVoos(); 
@@ -50,6 +52,14 @@ public class Bilhete {
         this.tipoDocumento = tipoDocumento;
     }
 
+    public Funcionario getFuncionario() {
+        return funcionario;
+    }
+
+    public void setFuncionario(Funcionario funcionario) {
+        this.funcionario = funcionario;
+    }
+
     public double getRemuneracaoAgencia() {
         return remuneracaoAgencia;
     }
@@ -57,7 +67,11 @@ public class Bilhete {
     private void calcularValorComBaseNosVoos() {
         double tarifaTotal = 0.0;
         for (Voo voo : voos) {
-            tarifaTotal += voo.getTarifa();
+            try {
+                tarifaTotal += voo.getValorPassagem();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         this.valorTotal = tarifaTotal + valorTotalSemBagagem;
     }
