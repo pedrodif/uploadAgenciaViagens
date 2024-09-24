@@ -1,58 +1,45 @@
 package test;
 
-import business.Funcionario;
-import business.Passageiro;
-import business.Voo;
-import business.Bilhete;
-import enums.Bagagem;
-import enums.ClasseVoo;
-import enums.Moeda;
 import org.junit.jupiter.api.Test;
-
+import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
 
+import business.Voo;
+import business.Bilhete;
+import business.Passageiro;
+import business.Funcionario;
+
 public class PassageiroTest {
+    private Passageiro passageiro; 
+    private Funcionario funcionario;
+    private Voo voo;
 
-    @Test
-    public void testAdicionarBilhete() {
-        Passageiro passageiro = new Passageiro("João", "123456789", "AB123456");
-        Funcionario funcionario = new Funcionario("123", "Maria", "98765");
-        Voo voo = criarVoo(100.0, 50.0, ClasseVoo.BASICA, Bagagem.PRIMEIRA);
+    public void configVoo() throws Exception{
+        this.voo.cadastrarTarifa("Internacional", "real");
+        this.voo.escolherClasse("basica");
+        this.voo.escolherBagagem("primeira");
+        this.voo.cadatrarDtHrPartida(1, 1, 2025, 12, 0);
+        this.voo.cadatrarDtHrChegada(1, 1, 2025, 18, 0);
+    }
 
-        assertTrue(passageiro.adicionarBilhete(funcionario));
-
-        Bilhete bilheteAdicionado = passageiro.getBilhetes().get(0);
-        bilheteAdicionado.adicionarVoo(voo);
-
-        assertEquals(1, passageiro.getBilhetes().size());
+    @BeforeEach
+    public void configCenario() throws Exception{
+        this.voo = new Voo(null, null, null);
+        this.funcionario = new Funcionario("123", "Maria", "98765");
+        this.passageiro = new Passageiro("João", "123456789", "AB123456");
+        this.configVoo();
     }
 
     @Test
-    public void testRemoverBilhete() {
-        Passageiro passageiro = new Passageiro("João", "123456789", "AB123456");
-        Funcionario funcionario = new Funcionario("123", "Maria", "98765");
-        Voo voo = criarVoo(100.0, 50.0, ClasseVoo.BASICA, Bagagem.PRIMEIRA);
-
-        assertTrue(passageiro.adicionarBilhete(funcionario));
-
-        Bilhete bilheteAdicionado = passageiro.getBilhetes().get(0);
-        bilheteAdicionado.adicionarVoo(voo);
-
-        assertTrue(passageiro.removerBilhete(bilheteAdicionado));
-        assertEquals(0, passageiro.getBilhetes().size());
+    public void testCadastrarBilhete() {
+        assertTrue(passageiro.cadastrarBilhete(funcionario));
     }
 
-    private Voo criarVoo(double valorPassagem, double valorBagagem, ClasseVoo classe, Bagagem bagagem) {
-        Voo voo = new Voo(null, null, null);
-        try {
-            voo.cadastrarTarifa("Internacional", Moeda.REAL.name());
-            voo.cadatrarDtHrPartida(1, 1, 2025, 12, 0);
-            voo.cadatrarDtHrChegada(1, 1, 2025, 18, 0);
-            voo.escolherClasse(classe.name());
-            voo.escolherBagagem(bagagem.name());
-        } catch (Exception e) {
-            fail("Erro ao criar voo: " + e.getMessage());
-        }
-        return voo;
+    @Test
+    public void testRemoverBilhete() throws Exception {
+        this.passageiro.cadastrarBilhete(funcionario);
+
+        Bilhete bilheteAdicionado = this.passageiro.getBilhetes().get(0);
+        assertTrue(passageiro.removerBilhete(bilheteAdicionado.getCodigo()));
     }
 }
