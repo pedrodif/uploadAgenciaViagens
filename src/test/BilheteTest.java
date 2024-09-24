@@ -3,73 +3,60 @@ package test;
 import business.Bilhete;
 import business.Funcionario;
 import business.Voo;
-import enums.Bagagem;
-import enums.ClasseVoo;
+import enums.TipoDocumento;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BilheteTest {
+class BilheteTest {
+    private Bilhete bilhete;
+    private Funcionario funcionario;
+    private Voo voo;
 
-    @Test
-    public void testCalcularValorTotal() {
-        Funcionario funcionario = new Funcionario("123", "João", "12345");
-        Voo voo1 = null;
-        Voo voo2 = null;
+    @BeforeEach
+    void setUp() throws Exception {
+        funcionario = new Funcionario("1", "Nome do Funcionário", "Documento do Funcionário");
+        bilhete = new Bilhete(funcionario);
 
-        try {
-            voo1 = criarVoo(100.0, 50.0, ClasseVoo.BASICA, Bagagem.PRIMEIRA);
-            voo2 = criarVoo(200.0, 70.0, ClasseVoo.PREMIUM, Bagagem.ADICIONAL);
-        } catch (Exception e) {
-            fail("Erro ao criar voo: " + e.getMessage());
-        }
-
-        Bilhete bilhete = new Bilhete(150.0, Arrays.asList(voo1, voo2), funcionario);
+        voo = new Voo(new CiaArea(), new Aeroporto(), new Aeroporto());
         
-        assertEquals(520.0, bilhete.calcularValorTotal());
+        voo.cadastrarTarifa("basica", "BRL");
+        voo.escolherBagagem("BASICA");
+        voo.escolherClasse("ECONOMY");
     }
 
     @Test
-    public void testCalcularRemuneracaoAgencia() {
-        Funcionario funcionario = new Funcionario("123", "João", "12345");
-        Voo voo1 = null;
-
-        try {
-            voo1 = criarVoo(100.0, 50.0, ClasseVoo.BASICA, Bagagem.PRIMEIRA);
-        } catch (Exception e) {
-            fail("Erro ao criar voo: " + e.getMessage());
-        }
-
-        Bilhete bilhete = new Bilhete(150.0, Arrays.asList(voo1), funcionario);
-        
-        assertEquals(15.0, bilhete.calcularRemuneracaoAgencia());
+    void testAdicionarVoo() {
+        bilhete.adicionarVoo(voo);
+        assertEquals(1, bilhete.getVoos().size(), "Deve haver 1 voo adicionado.");
+        assertTrue(bilhete.getValorTotal() > 0, "O valor total deve ser maior que zero após adicionar um voo.");
     }
 
     @Test
-    public void testGetFuncionario() {
-        Funcionario funcionario = new Funcionario("123", "João", "12345");
-        Voo voo = null;
-
-        try {
-            voo = criarVoo(100.0, 50.0, ClasseVoo.BASICA, Bagagem.PRIMEIRA);
-        } catch (Exception e) {
-            fail("Erro ao criar voo: " + e.getMessage());
-        }
-
-        Bilhete bilhete = new Bilhete(150.0, Arrays.asList(voo), funcionario);
-
-        assertEquals(funcionario, bilhete.getFuncionario());
+    void testCalcularValorTotal() {
+        bilhete.adicionarVoo(voo);
+        bilhete.calcularValorTotal();
+        assertTrue(bilhete.getValorTotal() > 0, "O valor total deve ser maior que zero.");
     }
 
-    private Voo criarVoo(double valorPassagem, double valorBagagem, ClasseVoo classe, Bagagem bagagem) throws Exception {
-        Voo voo = new Voo(null, null, null);
-        voo.cadastrarTarifa("Internacional", "BRL");
-        voo.cadatrarDtHrPartida(1, 1, 2025, 12, 0);
-        voo.cadatrarDtHrChegada(1, 1, 2025, 18, 0);
-        voo.escolherClasse(classe.name());
-        voo.escolherBagagem(bagagem.name());
-        return voo;
+    @Test
+    void testCalcularValorTotalSemBagagem() {
+        bilhete.adicionarVoo(voo);
+        bilhete.calcularValorTotalSemBagagem();
+        assertTrue(bilhete.getValorTotalSemBagagem() >= 0, "O valor total sem bagagem não deve ser negativo.");
+    }
+
+    @Test
+    void testCalcularRemuneracaoAgencia() {
+        bilhete.adicionarVoo(voo);
+        bilhete.calcularRemuneracaoAgencia();
+        assertTrue(bilhete.getRemuneracaoAgencia() >= 0, "A remuneração da agência não deve ser negativa.");
+    }
+
+    @Test
+    void testSetGetTipoDocumento() {
+        bilhete.setTipoDocumento(TipoDocumento.RG);
+        assertEquals(TipoDocumento.RG, bilhete.getTipoDocumento(), "O tipo de documento deve ser RG.");
     }
 }

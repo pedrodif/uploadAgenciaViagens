@@ -1,6 +1,8 @@
 package business;
 
 import enums.TipoDocumento;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Bilhete {
@@ -12,40 +14,52 @@ public class Bilhete {
     private List<Voo> voos;
     private Funcionario funcionario;
 
-    public Bilhete(double valorTotalSemBagagem, List<Voo> voos, Funcionario funcionario) {
-        this.valorTotalSemBagagem = valorTotalSemBagagem;
-        this.voos = voos;
+    public Bilhete(Funcionario funcionario) {
+        this.voos = new ArrayList<>();
         this.funcionario = funcionario;
-        calcularValorTotal();
     }
 
-    public double calcularValorTotal() {
-        calcularValorComBaseNosVoos(); 
-        return valorTotal;
+    public void adicionarVoo(Voo voo) {
+        if (voo != null) {
+            this.voos.add(voo);
+            this.calcularValorTotal();   
+            this.calcularValorTotalSemBagagem();
+        }
     }
 
-    public double calcularValorSemBagagem() {
-        return valorTotalSemBagagem;
+    public void calcularValorTotal() {
+        this.valorTotal = this.voos.stream()
+            .mapToDouble(Voo::getValorPassagem)
+            .sum();
+    }
+
+    public void calcularValorTotalSemBagagem() {
+        this.valorTotalSemBagagem = this.voos.stream()
+            .mapToDouble(voo -> voo.getValorPassagem() - voo.getValorBagagem())
+            .sum();
     }
 
     public double calcularRemuneracaoAgencia() {
-        calcularValorTotal();
-        if (valorTotal != 0.0) {
-            this.remuneracaoAgencia = valorTotal * 0.10;
+        if (this.valorTotal != 0.0) {
+            this.remuneracaoAgencia = this.valorTotal * 0.10;
         }
-        return remuneracaoAgencia;
+        return this.remuneracaoAgencia;
+    }
+
+    public List<Voo> getVoos() {
+        return Collections.unmodifiableList(this.voos);
     }
 
     public double getValorTotal() {
-        return valorTotal;
+        return this.valorTotal;
     }
 
     public double getValorTotalSemBagagem() {
-        return valorTotalSemBagagem;
+        return this.valorTotalSemBagagem;
     }
 
     public TipoDocumento getTipoDocumento() {
-        return tipoDocumento;
+        return this.tipoDocumento;
     }
 
     public void setTipoDocumento(TipoDocumento tipoDocumento) {
@@ -53,7 +67,7 @@ public class Bilhete {
     }
 
     public Funcionario getFuncionario() {
-        return funcionario;
+        return this.funcionario;
     }
 
     public void setFuncionario(Funcionario funcionario) {
@@ -61,18 +75,6 @@ public class Bilhete {
     }
 
     public double getRemuneracaoAgencia() {
-        return remuneracaoAgencia;
-    }
-
-    private void calcularValorComBaseNosVoos() {
-        double tarifaTotal = 0.0;
-        for (Voo voo : voos) {
-            try {
-                tarifaTotal += voo.getValorPassagem();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        this.valorTotal = tarifaTotal + valorTotalSemBagagem;
+        return this.remuneracaoAgencia;
     }
 }

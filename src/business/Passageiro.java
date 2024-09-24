@@ -29,11 +29,11 @@ public class Passageiro {
     }
 
     public List<Bilhete> getBilhetes() {
-        return Collections.unmodifiableList(bilhetes);
+        return Collections.unmodifiableList(this.bilhetes);
     }
 
     public String getRg() {
-        return rg;
+        return this.rg;
     }
 
     public void setRg(String rg) {
@@ -41,7 +41,7 @@ public class Passageiro {
     }
 
     public String getNome() {
-        return nome;
+        return this.nome;
     }
 
     public void setNome(String nome) {
@@ -49,18 +49,10 @@ public class Passageiro {
     }
 
     public String getNumeroPassaporte() {
-        return numeroPassaporte;
+        return this.numeroPassaporte;
     }
 
     public void setNumeroPassaporte(String numeroPassaporte) {
         this.numeroPassaporte = numeroPassaporte;
-    }
-
-    public double calcularValorTotalBilhetes() {
-        return bilhetes.stream().mapToDouble(Bilhete::getValorTotal).sum();
-    }
-
-    public double calcularValorTotalSemBagagem() {
-        return bilhetes.stream().mapToDouble(Bilhete::getValorTotalSemBagagem).sum();
     }
 }

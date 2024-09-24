@@ -8,8 +8,6 @@ import enums.Bagagem;
 import enums.ClasseVoo;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PassageiroTest {
@@ -19,7 +17,10 @@ public class PassageiroTest {
         Passageiro passageiro = new Passageiro("João", "123456789", "AB123456");
         Funcionario funcionario = new Funcionario("123", "Maria", "98765");
         Voo voo = criarVoo(100.0, 50.0, ClasseVoo.BASICA, Bagagem.PRIMEIRA);
-        Bilhete bilhete = new Bilhete(150.0, Arrays.asList(voo), funcionario);
+        
+        Bilhete bilhete = new Bilhete(funcionario);
+
+        bilhete.adicionarVoo(voo);
 
         assertTrue(passageiro.adicionarBilhete(bilhete));
         assertEquals(1, passageiro.getBilhetes().size());
@@ -30,41 +31,13 @@ public class PassageiroTest {
         Passageiro passageiro = new Passageiro("João", "123456789", "AB123456");
         Funcionario funcionario = new Funcionario("123", "Maria", "98765");
         Voo voo = criarVoo(100.0, 50.0, ClasseVoo.BASICA, Bagagem.PRIMEIRA);
-        Bilhete bilhete = new Bilhete(150.0, Arrays.asList(voo), funcionario);
+        
+        Bilhete bilhete = new Bilhete(funcionario);
+        bilhete.adicionarVoo(voo);
 
         passageiro.adicionarBilhete(bilhete);
         assertTrue(passageiro.removerBilhete(bilhete));
         assertEquals(0, passageiro.getBilhetes().size());
-    }
-
-    @Test
-    public void testCalcularValorTotalBilhetes() {
-        Passageiro passageiro = new Passageiro("João", "123456789", "AB123456");
-        Funcionario funcionario = new Funcionario("123", "Maria", "98765");
-        Voo voo1 = criarVoo(100.0, 50.0, ClasseVoo.BASICA, Bagagem.PRIMEIRA);
-        Voo voo2 = criarVoo(200.0, 70.0, ClasseVoo.PREMIUM, Bagagem.ADICIONAL);
-        Bilhete bilhete1 = new Bilhete(150.0, Arrays.asList(voo1), funcionario);
-        Bilhete bilhete2 = new Bilhete(300.0, Arrays.asList(voo2), funcionario);
-
-        passageiro.adicionarBilhete(bilhete1);
-        passageiro.adicionarBilhete(bilhete2);
-
-        assertEquals(450.0, passageiro.calcularValorTotalBilhetes());
-    }
-
-    @Test
-    public void testCalcularValorTotalSemBagagem() {
-        Passageiro passageiro = new Passageiro("João", "123456789", "AB123456");
-        Funcionario funcionario = new Funcionario("123", "Maria", "98765");
-        Voo voo1 = criarVoo(100.0, 50.0, ClasseVoo.BASICA, Bagagem.PRIMEIRA);
-        Voo voo2 = criarVoo(200.0, 70.0, ClasseVoo.PREMIUM, Bagagem.ADICIONAL);
-        Bilhete bilhete1 = new Bilhete(150.0, Arrays.asList(voo1), funcionario);
-        Bilhete bilhete2 = new Bilhete(300.0, Arrays.asList(voo2), funcionario);
-
-        passageiro.adicionarBilhete(bilhete1);
-        passageiro.adicionarBilhete(bilhete2);
-
-        assertEquals(450.0, passageiro.calcularValorTotalSemBagagem());
     }
 
     private Voo criarVoo(double valorPassagem, double valorBagagem, ClasseVoo classe, Bagagem bagagem) {
