@@ -58,11 +58,11 @@ public class CiaAerea {
         this.voos = voos;
     }
 
-    public void adicionarVoo(Voo voo) {
+    public boolean adicionarVoo(Voo voo) {
         this.voos.add(voo);
     }
 
-    public void removerVoo(Voo voo) {
+    public boolean removerVoo(Voo voo) {
         this.voos.remove(voo);
     }
 

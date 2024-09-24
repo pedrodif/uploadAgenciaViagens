@@ -66,11 +66,11 @@ public class Aeroporto {
         this.voos = voos;
     }
 
-    public void adicionarVoo(Voo voo) {
-        this.voos.add(voo);
+    public boolean adicionarVoo(Voo voo) {
+        return this.voos.add(voo);
     }
 
-    public void removerVoo(Voo voo) {
-        this.voos.remove(voo);
+    public boolean removerVoo(Voo voo) {
+        return this.voos.remove(voo);
     }
 }
