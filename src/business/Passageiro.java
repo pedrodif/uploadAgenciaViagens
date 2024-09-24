@@ -17,9 +17,10 @@ public class Passageiro {
         this.bilhetes = new ArrayList<>();
     }
 
-    public boolean adicionarBilhete(Bilhete bilhete) {
-        if (bilhete != null) {
-            return this.bilhetes.add(bilhete);
+    public boolean adicionarBilhete(Funcionario funcionario) {
+        if (funcionario != null) {
+            Bilhete novoBilhete = new Bilhete(funcionario);
+            return this.bilhetes.add(novoBilhete);
         }
         return false;
     }

@@ -1,9 +1,9 @@
 package test;
 
-import business.Bilhete;
 import business.Funcionario;
 import business.Passageiro;
 import business.Voo;
+import business.Bilhete;
 import enums.Bagagem;
 import enums.ClasseVoo;
 import org.junit.jupiter.api.Test;
@@ -17,12 +17,12 @@ public class PassageiroTest {
         Passageiro passageiro = new Passageiro("João", "123456789", "AB123456");
         Funcionario funcionario = new Funcionario("123", "Maria", "98765");
         Voo voo = criarVoo(100.0, 50.0, ClasseVoo.BASICA, Bagagem.PRIMEIRA);
-        
-        Bilhete bilhete = new Bilhete(funcionario);
 
-        bilhete.adicionarVoo(voo);
+        assertTrue(passageiro.adicionarBilhete(funcionario));
 
-        assertTrue(passageiro.adicionarBilhete(bilhete));
+        Bilhete bilheteAdicionado = passageiro.getBilhetes().get(0);
+        bilheteAdicionado.adicionarVoo(voo);
+
         assertEquals(1, passageiro.getBilhetes().size());
     }
 
@@ -31,12 +31,13 @@ public class PassageiroTest {
         Passageiro passageiro = new Passageiro("João", "123456789", "AB123456");
         Funcionario funcionario = new Funcionario("123", "Maria", "98765");
         Voo voo = criarVoo(100.0, 50.0, ClasseVoo.BASICA, Bagagem.PRIMEIRA);
-        
-        Bilhete bilhete = new Bilhete(funcionario);
-        bilhete.adicionarVoo(voo);
 
-        passageiro.adicionarBilhete(bilhete);
-        assertTrue(passageiro.removerBilhete(bilhete));
+        assertTrue(passageiro.adicionarBilhete(funcionario));
+
+        Bilhete bilheteAdicionado = passageiro.getBilhetes().get(0);
+        bilheteAdicionado.adicionarVoo(voo);
+
+        assertTrue(passageiro.removerBilhete(bilheteAdicionado));
         assertEquals(0, passageiro.getBilhetes().size());
     }
 

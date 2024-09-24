@@ -3,6 +3,8 @@ package test;
 import business.Bilhete;
 import business.Funcionario;
 import business.Voo;
+import business.CiaArea;
+import business.Aeroporto;
 import enums.TipoDocumento;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -11,7 +11,7 @@ public class Bilhete {
     private double valorTotalSemBagagem;
     private TipoDocumento tipoDocumento;
     private double remuneracaoAgencia;
-    private List<Voo> voos;
+    private ArrayList<Voo> voos;
     private Funcionario funcionario;
 
     public Bilhete(Funcionario funcionario) {
@@ -40,11 +40,12 @@ public class Bilhete {
     }
 
     public double calcularRemuneracaoAgencia() {
-        if (this.valorTotal != 0.0) {
-            this.remuneracaoAgencia = this.valorTotal * 0.10;
+        if (this.valorTotalSemBagagem != 0.0) {
+            this.remuneracaoAgencia = this.valorTotalSemBagagem * 0.10;
         }
         return this.remuneracaoAgencia;
     }
+    
 
     public List<Voo> getVoos() {
         return Collections.unmodifiableList(this.voos);
@@ -68,10 +69,6 @@ public class Bilhete {
 
     public Funcionario getFuncionario() {
         return this.funcionario;
-    }
-
-    public void setFuncionario(Funcionario funcionario) {
-        this.funcionario = funcionario;
     }
 
     public double getRemuneracaoAgencia() {
