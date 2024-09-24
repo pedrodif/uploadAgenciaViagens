@@ -2,9 +2,8 @@ package business;
 
 import java.util.Arrays;
 import java.util.List;
-
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Usuario {
 
@@ -12,16 +11,18 @@ public class Usuario {
     private String cpf;
     private String email;
     private String login;
-    private String senhaHash;
+    private String senha;
 
     public static final List<Usuario> MOCK_USUARIOS = Arrays.asList();
 
+    public Usuario() { }
+
     public Usuario(String nome, String cpf, String email, String login, String senha) {
-        this.setNome(nome);
+        this.nome = nome;
         this.cpf = cpf;
-        this.setEmail(email);
+        this.email = email;
         this.login = login;
-        this.senhaHash = hashPassword(senha);
+        this.senha = senha;
     }
 
     public String getNome() {
@@ -29,21 +30,19 @@ public class Usuario {
     }
 
     public boolean setNome(String nome) {
-    }
-
-    public boolean setNome(String nome) {
         if (nome != null && !nome.trim().isEmpty()) {
             this.nome = nome;
             return true;
-        } else {
-            return false;
-        }
+        }    
+        return false;
     }
     
-    public String getCpfFormatado() {};
-
-    private String getCpf() {
+    public String getCpf() {
         return cpf;
+    };
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     };
 
     public String getEmail() {
@@ -52,20 +51,14 @@ public class Usuario {
 
     public boolean setEmail(String email) {
         String emailRegex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
-
         Pattern pattern = Pattern.compile(emailRegex);
         Matcher matcher = pattern.matcher(email);
 
-        if (email != null && !email.trim().isEmpty()) {
-            if (matcher.matches()) {
-                this.email = email;
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
+        if (email != null && !email.trim().isEmpty() && matcher.matches()) {
+            this.email = email;
+            return true;
         }
+        return false;
     }
 
     public String getLogin() {
@@ -81,19 +74,13 @@ public class Usuario {
     }
 
     public void setSenha(String senha) {
-        this.senhaHash = hashPassword(senha);
-    }
-
-    private String hashPassword(String password) {
+        this.senha = senha;
     }
 
     public Usuario login(String email, String senha) {
         return MOCK_USUARIOS.stream()
-                .filter(u -> u.getEmail().equalsIgnoreCase(email) && verificarSenha(senha, u.senhaHash))
+                .filter(u -> u.getEmail().equalsIgnoreCase(email) && u.getSenha().equalsIgnoreCase(senha))
                 .findFirst()
                 .orElse(null);
-    }
-
-    private boolean verificarSenha(String plainTextPassword, String hashedPassword) {
     }
 }
