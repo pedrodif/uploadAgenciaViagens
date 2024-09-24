@@ -2,11 +2,9 @@ package business;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-
 
 public class Usuario {
 
@@ -14,52 +12,46 @@ public class Usuario {
     private String cpf;
     private String email;
     private String login;
-    private String senha;
+    private String senhaHash;
 
-    public static final List<Usuario> MOCK_USUARIOS = Arrays.asList(
-            new Usuario("João Silva", "123.456.789-00", "joao.silva@email.com", "joaosilva", "senha123"),
-            new Usuario("Maria Souza", "987.654.321-00", "maria.souza@email.com", "mariasouza", "senha456"),
-            new Usuario("Pedro Lima", "456.123.789-00", "pedro.lima@email.com", "pedrolima", "senha789")
-    );
+    public static final List<Usuario> MOCK_USUARIOS = Arrays.asList();
 
     public Usuario(String nome, String cpf, String email, String login, String senha) {
         this.setNome(nome);
         this.cpf = cpf;
         this.setEmail(email);
         this.login = login;
-        this.senha = senha;
+        this.senhaHash = hashPassword(senha);
     }
 
     public String getNome() {
         return nome;
     }
 
-    public void setNome(String nome) {
+    public boolean setNome(String nome) {
+    }
+
+    public boolean setNome(String nome) {
         if (nome != null && !nome.trim().isEmpty()) {
-            if (nome.matches("[A-Za-zÀ-ÖØ-öø-ÿ ]+")) {
-                this.nome = nome;
-            } else {
-                System.out.println("Nome inválido. Deve conter apenas letras.");
-            }
+            this.nome = nome;
+            return true;
         } else {
-            System.out.println("Nome não pode ser vazio.");
+            return false;
         }
     }
+    
+    public String getCpfFormatado() {};
 
-    public String getCpf() {
+    private String getCpf() {
         return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
+    };
 
     public String getEmail() {
         return email;
-    }
+    };
 
-    public void setEmail(String email) {
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+    public boolean setEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
 
         Pattern pattern = Pattern.compile(emailRegex);
         Matcher matcher = pattern.matcher(email);
@@ -67,11 +59,12 @@ public class Usuario {
         if (email != null && !email.trim().isEmpty()) {
             if (matcher.matches()) {
                 this.email = email;
+                return true;
             } else {
-                System.out.println("Email inválido. Deve conter o caractere '@'.");
+                return false;
             }
         } else {
-            System.out.println("Email não pode ser vazio.");
+            return false;
         }
     }
 
@@ -84,18 +77,23 @@ public class Usuario {
     }
 
     public String getSenha() {
-        return senha;
+        return null;
     }
 
     public void setSenha(String senha) {
-        this.senha = senha;
+        this.senhaHash = hashPassword(senha);
+    }
+
+    private String hashPassword(String password) {
     }
 
     public Usuario login(String email, String senha) {
-        Optional<Usuario> usuarioOptional = MOCK_USUARIOS.stream()
-                .filter(u -> u.getEmail().equalsIgnoreCase(email) && u.getSenha().equals(senha))
-                .findFirst();
+        return MOCK_USUARIOS.stream()
+                .filter(u -> u.getEmail().equalsIgnoreCase(email) && verificarSenha(senha, u.senhaHash))
+                .findFirst()
+                .orElse(null);
+    }
 
-        return usuarioOptional.orElse(null);
+    private boolean verificarSenha(String plainTextPassword, String hashedPassword) {
     }
 }
