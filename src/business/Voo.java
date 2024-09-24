@@ -73,14 +73,14 @@ public class Voo {
         }
     }
 
-    public double getValorBagagem() throws Exception {
+    public double getValorBagagem() {
         this.recuperarValorBagagem();
         return this.valorBagagem;
     }
 
-    private void recuperarValorBagagem() throws Exception {
+    private void recuperarValorBagagem() {
         if (this.bagagem == null) {
-            throw new Exception("O tipo de bagagem deve ser escolhido antes de calcular seu valor.");
+            throw new RuntimeException("O tipo de bagagem deve ser escolhido antes de calcular seu valor.");
         } else {
             switch (this.bagagem) {
                 case Bagagem.ADICIONAL:
@@ -105,14 +105,14 @@ public class Voo {
         }
     }
 
-    public double getValorPassagem() throws Exception {
+    public double getValorPassagem() {
         this.recuperarValorPassagem();
         return this.valorPassagem;
     }
 
-    private void recuperarValorPassagem() throws Exception {
+    private void recuperarValorPassagem() {
         if (this.classe == null) {
-            throw new Exception("A classe deve ser escolhida antes de calcular o valor da passagem.");
+            throw new RuntimeException("A classe deve ser escolhida antes de calcular o valor da passagem.");
         } else {
             this.recuperarValorBagagem();
             switch (this.classe) {

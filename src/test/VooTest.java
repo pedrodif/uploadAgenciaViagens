@@ -51,18 +51,6 @@ public class VooTest {
     }
 
     @Test
-    void testEscolherClasseSucesso() throws Exception {
-        this.voo.escolherClasse("basica");
-        assertEquals(ClasseVoo.BASICA, this.voo.getClasse());
-    }
-
-    @Test
-    void testEscolherClasseErro() throws Exception {
-        Exception excecao = assertThrows(Exception.class, () -> this.voo.escolherClasse("primeira classe"));
-        assertEquals(excecao.getMessage(), "Classe de voo indisponível.");
-    }
-
-    @Test
     void testCadatrarDtHrPartida() {
         this.voo.cadatrarDtHrPartida(22, 9, 2024, 13, 20);
         assertEquals(LocalDateTime.of(2024, 9, 22, 13, 20), this.voo.getDtHrPartida());
@@ -93,9 +81,21 @@ public class VooTest {
     }
 
     @Test
-    void testRecuperarValorErro() throws Exception {
-        Exception excecao = assertThrows(Exception.class, () -> this.voo.getValorBagagem());
+    void testRecuperarValorBagagemErro() {
+        RuntimeException excecao = (RuntimeException) assertThrows(Exception.class, () -> this.voo.getValorBagagem());
         assertEquals(excecao.getMessage(), "O tipo de bagagem deve ser escolhido antes de calcular seu valor.");
+    }
+
+    @Test
+    void testEscolherClasseSucesso() throws Exception {
+        this.voo.escolherClasse("basica");
+        assertEquals(ClasseVoo.BASICA, this.voo.getClasse());
+    }
+
+    @Test
+    void testEscolherClasseErro() throws Exception {
+        Exception excecao = assertThrows(Exception.class, () -> this.voo.escolherClasse("primeira classe"));
+        assertEquals(excecao.getMessage(), "Classe de voo indisponível.");
     }
 
     @Test
@@ -106,8 +106,8 @@ public class VooTest {
     }
 
     @Test
-    void testRecuperarValorPassagemErro() throws Exception {
-        Exception excecao = assertThrows(Exception.class, () -> this.voo.getValorPassagem());
+    void testRecuperarValorPassagemErro() {
+        RuntimeException excecao = (RuntimeException) assertThrows(Exception.class, () -> this.voo.getValorPassagem());
         assertEquals(excecao.getMessage(), "A classe deve ser escolhida antes de calcular o valor da passagem.");
     }
 }
