@@ -6,6 +6,7 @@ import business.Voo;
 import business.Bilhete;
 import enums.Bagagem;
 import enums.ClasseVoo;
+import enums.Moeda;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -44,7 +45,7 @@ public class PassageiroTest {
     private Voo criarVoo(double valorPassagem, double valorBagagem, ClasseVoo classe, Bagagem bagagem) {
         Voo voo = new Voo(null, null, null);
         try {
-            voo.cadastrarTarifa("Internacional", "BRL");
+            voo.cadastrarTarifa("Internacional", Moeda.REAL.name());
             voo.cadatrarDtHrPartida(1, 1, 2025, 12, 0);
             voo.cadatrarDtHrChegada(1, 1, 2025, 18, 0);
             voo.escolherClasse(classe.name());

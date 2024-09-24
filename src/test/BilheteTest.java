@@ -1,11 +1,16 @@
 package test;
 
 import business.Bilhete;
+import business.Tarifa;
 import business.Funcionario;
 import business.Voo;
 import business.CiaArea;
 import business.Aeroporto;
 import enums.TipoDocumento;
+import enums.Bagagem;
+import enums.ClasseVoo;
+import enums.Moeda;
+import enums.TipoVoo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,20 +26,36 @@ class BilheteTest {
         funcionario = new Funcionario("1", "Nome do Funcionário", "Documento do Funcionário");
         bilhete = new Bilhete(funcionario);
 
-        voo = new Voo(new CiaArea(), new Aeroporto(), new Aeroporto());
+        CiaArea ciaArea = new CiaArea();
+        Aeroporto localPartida = new Aeroporto();
+        Aeroporto localChegada = new Aeroporto();
+        voo = new Voo(ciaArea, localPartida, localChegada);
+
+        Tarifa tarifa = new Tarifa(TipoVoo.DOMESTICO.name(), Moeda.REAL.name());
+        tarifa.setBusiness(300);
+        tarifa.setPremium(200);
+        tarifa.setBasica(100);
+        tarifa.setBagagem(50);
+        tarifa.setBagagemAdicional(30);
+        voo.cadastrarTarifa(TipoVoo.DOMESTICO.name(), Moeda.REAL.name());
+        voo.setTarifa(tarifa);
+        voo.escolherBagagem(Bagagem.ADICIONAL.name());
+        voo.escolherClasse(ClasseVoo.BASICA.name());
         
-        voo.cadastrarTarifa("basica", "BRL");
-        voo.escolherBagagem("BASICA");
-        voo.escolherClasse("ECONOMY");
+        voo.getValorPassagem();
+        voo.getValorBagagem();
     }
 
     @Test
     void testAdicionarVoo() {
         bilhete.adicionarVoo(voo);
         assertEquals(1, bilhete.getVoos().size(), "Deve haver 1 voo adicionado.");
-        assertTrue(bilhete.getValorTotal() > 0, "O valor total deve ser maior que zero após adicionar um voo.");
+    
+        double valorTotal = bilhete.getValorTotal();
+        System.out.println("Valor total após adicionar voo: " + valorTotal);
+        assertTrue(valorTotal > 0, "O valor total deve ser maior que zero após adicionar um voo.");
     }
-
+    
     @Test
     void testCalcularValorTotal() {
         bilhete.adicionarVoo(voo);

@@ -29,6 +29,10 @@ public class Voo {
         return this.codigo;
     }
     
+    public void setTarifa(Tarifa tarifa) {
+        this.tarifa = tarifa;
+    }    
+
     public Tarifa getTarifa() {
         return this.tarifa;
     }
