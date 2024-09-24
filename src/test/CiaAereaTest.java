@@ -10,7 +10,9 @@ import business.Aeroporto;
 import business.CiaAerea;
 import business.Voo;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class CiaAereaTest {
@@ -47,8 +49,17 @@ public class CiaAereaTest {
 
     @Test
     public void testSetNome() {
-        ciaAerea.setNome("Nova Companhia");
-        assertEquals("Nova Companhia", ciaAerea.getNome());
+        boolean result = ciaAerea.setNome("Companhia Teste");
+        assertTrue(result);
+        assertEquals("Companhia Teste", ciaAerea.getNome());
+    
+        result = ciaAerea.setNome("");
+        assertFalse(result);
+        assertNotEquals("", ciaAerea.getNome()); 
+    
+        result = ciaAerea.setNome("CiaAerea#123");
+        assertFalse(result);
+        assertNotEquals("CiaAerea#123", ciaAerea.getNome());
     }
 
     @Test
@@ -108,8 +119,7 @@ public class CiaAereaTest {
 
     @Test
     public void testPesquisarVoosPorCidadeDePartida() {
-        String cidadePartida = "São Paulo";
-        List<Voo> voosEncontrados = ciaAerea.pesquisarVoos(cidadePartida);
+        List<Voo> voosEncontrados = ciaAerea.pesquisarVoos("São Paulo");
 
         assertEquals(1, voosEncontrados.size());
         assertEquals(voo1.getCodigo(), voosEncontrados.get(0).getCodigo());
@@ -125,8 +135,7 @@ public class CiaAereaTest {
 
     @Test
     public void testPesquisarVoosPorCidadeSemResultados() {
-        String cidadePartida = "Curitiba";
-        List<Voo> voosEncontrados = ciaAerea.pesquisarVoos(cidadePartida);
+        List<Voo> voosEncontrados = ciaAerea.pesquisarVoos("Curitiba");
 
         assertTrue(voosEncontrados.isEmpty());
     }
