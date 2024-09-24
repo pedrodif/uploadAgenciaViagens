@@ -1,6 +1,5 @@
 package business;
 
-<<<<<<< HEAD
 import java.util.ArrayList;
 
 public class Aeroporto {
@@ -89,8 +88,4 @@ public class Aeroporto {
     public boolean removerVoo(Voo voo) {
         return this.voos.remove(voo);
     }
-=======
-public class Aeroporto {
-    
->>>>>>> 575fcd900bbc8adbd00f640e2dc7c4cc07356114
 }

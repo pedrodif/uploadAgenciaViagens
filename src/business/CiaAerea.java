@@ -1,6 +1,5 @@
 package business;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +74,7 @@ public class CiaAerea {
     }
 
     public boolean removerVoo(Voo voo) {
-        this.voos.remove(voo);
+        return this.voos.remove(voo);
     }
 
     public List<Voo> pesquisarVoos(LocalDateTime dataPartida) {
