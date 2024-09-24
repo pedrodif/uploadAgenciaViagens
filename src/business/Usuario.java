@@ -4,6 +4,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
+
 public class Usuario {
 
     private String nome;
@@ -55,8 +59,13 @@ public class Usuario {
     }
 
     public void setEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+
+        Pattern pattern = Pattern.compile(emailRegex);
+        Matcher matcher = pattern.matcher(email);
+
         if (email != null && !email.trim().isEmpty()) {
-            if (email.contains("@")) {
+            if (matcher.matches()) {
                 this.email = email;
             } else {
                 System.out.println("Email inválido. Deve conter o caractere '@'.");
