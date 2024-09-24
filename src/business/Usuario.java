@@ -14,7 +14,10 @@ public class Usuario {
     private String login;
     private String senhaHash;
 
-    public static final List<Usuario> MOCK_USUARIOS = Arrays.asList();
+    public static final List<Usuario> MOCK_USUARIOS = Arrays.asList(
+        new Usuario("User1", "12345678901", "user1@example.com", "user1", "password1"),
+        new Usuario("User2", "10987654321", "user2@example.com", "user2", "password2")
+    );
 
     public Usuario(String nome, String cpf, String email, String login, String senha) {
         this.setNome(nome);
