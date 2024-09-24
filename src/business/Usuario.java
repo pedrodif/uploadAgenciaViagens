@@ -2,9 +2,9 @@ package business;
 
 import java.util.Arrays;
 import java.util.List;
-
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class Usuario {
 
@@ -29,9 +29,6 @@ public class Usuario {
     }
 
     public boolean setNome(String nome) {
-    }
-
-    public boolean setNome(String nome) {
         if (nome != null && !nome.trim().isEmpty()) {
             this.nome = nome;
             return true;
@@ -39,16 +36,31 @@ public class Usuario {
             return false;
         }
     }
-    
-    public String getCpfFormatado() {};
+
+    public String getCpfFormatado() {
+        if (cpf == null || cpf.length() != 11) {
+            return null; 
+        }
+
+        StringBuilder formattedCpf = new StringBuilder();
+        formattedCpf.append(cpf.substring(0, 3));
+        formattedCpf.append(".");
+        formattedCpf.append(cpf.substring(3, 6));
+        formattedCpf.append(".");
+        formattedCpf.append(cpf.substring(6, 9));
+        formattedCpf.append("-");
+        formattedCpf.append(cpf.substring(9));
+
+        return formattedCpf.toString();
+    }
 
     private String getCpf() {
         return cpf;
-    };
+    }
 
     public String getEmail() {
         return email;
-    };
+    }
 
     public boolean setEmail(String email) {
         String emailRegex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
@@ -85,6 +97,7 @@ public class Usuario {
     }
 
     private String hashPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
     public Usuario login(String email, String senha) {
@@ -95,5 +108,6 @@ public class Usuario {
     }
 
     private boolean verificarSenha(String plainTextPassword, String hashedPassword) {
+        return BCrypt.checkpw(plainTextPassword, hashedPassword);
     }
 }
