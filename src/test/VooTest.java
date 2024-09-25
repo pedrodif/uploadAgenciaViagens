@@ -11,8 +11,8 @@ import enums.Bagagem;
 import enums.ClasseVoo;
 
 import business.Voo;
+import business.Codigo;
 import business.CiaArea;
-import business.CodigoVoo;
 import business.Aeroporto;
 
 public class VooTest {
@@ -35,7 +35,7 @@ public class VooTest {
 
     @Test
     void testGerarCodigo() {
-        String codigo = CodigoVoo.gerarCodigo();
+        String codigo = Codigo.gerarCodigoVoo();
         Pattern padrao = Pattern.compile("^[A-Z]{2}\\d{4}$");
         assertTrue(padrao.matcher(codigo).matches());
     }

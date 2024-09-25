@@ -1,5 +1,5 @@
 package enums;
 
 public enum Bagagem {
-    PRIMEIRA, ADICIONAL
+    PRIMEIRA, ADICIONAL, SEM_BAGAGEM
 }
