@@ -25,8 +25,8 @@ public class PassageiroTest {
     @BeforeEach
     public void configCenario() throws Exception{
         this.voo = new Voo(null, null, null);
-        this.funcionario = new Funcionario("123", "Maria", "98765");
         this.passageiro = new Passageiro("João", "123456789", "AB123456");
+        this.funcionario = new Funcionario("Maria Betânia", " 259.657.910-38", "mari-beth@gmail.com", "mariaBeth", "testeSenha");
         this.configVoo();
     }
 

@@ -4,12 +4,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
 
+import enums.TipoDocumento;
+
 import business.Voo;
 import business.Bilhete;
 import business.Passageiro;
 import business.Funcionario;
 
-import enums.TipoDocumento;
 
 public class BilheteTest {
 
@@ -29,7 +30,7 @@ public class BilheteTest {
 
     @BeforeEach
     public void configCenario() throws Exception {
-        this.funcionario = new Funcionario("123", "Maria", "98765");
+        this.funcionario = new Funcionario("Maria Betânia", " 259.657.910-38", "mari-beth@gmail.com", "mariaBeth", "testeSenha");
         this.passageiro = new Passageiro("João", "123456789", "AB123456");
         this.bilhete = new Bilhete(this.passageiro, this.funcionario);
         this.configVoo();

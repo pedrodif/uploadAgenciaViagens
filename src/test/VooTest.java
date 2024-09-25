@@ -12,17 +12,17 @@ import enums.ClasseVoo;
 
 import business.Voo;
 import business.Codigo;
-import business.CiaArea;
+import business.CiaAerea;
 import business.Aeroporto;
 
 public class VooTest {
     private Voo voo; 
-    private CiaArea latam;
+    private CiaAerea latam;
     private Aeroporto galeao, guarulhos; 
 
     @BeforeEach
     public void configVoo(){
-        this.latam = new CiaArea();
+        this.latam = new CiaAerea();
         this.galeao = new Aeroporto();
         this.guarulhos = new Aeroporto();
         this.voo = new Voo(latam, galeao, guarulhos);
