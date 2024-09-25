@@ -1,85 +1,95 @@
 package test;
 
-import business.Bilhete;
-import business.Tarifa;
-import business.Funcionario;
-import business.Voo;
-import business.CiaAerea;
-import business.Aeroporto;
-import enums.TipoDocumento;
-import enums.Bagagem;
-import enums.ClasseVoo;
-import enums.Moeda;
-import enums.TipoVoo;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
+import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
 
-class BilheteTest {
+import enums.TipoDocumento;
+
+import business.Voo;
+import business.Bilhete;
+import business.Passageiro;
+import business.Funcionario;
+
+
+public class BilheteTest {
+
     private Bilhete bilhete;
+    private Passageiro passageiro;
     private Funcionario funcionario;
     private Voo voo;
 
-    // @BeforeEach
-    // void setUp() throws Exception {
-    //     funcionario = new Funcionario("1", "Nome do Funcionário", "Documento do Funcionário");
-    //     bilhete = new Bilhete(funcionario);
+    public void configVoo() throws Exception {
+        this.voo = new Voo(null, null, null);
+        this.voo.cadastrarTarifa("Internacional", "real");
+        this.voo.escolherClasse("basica");
+        this.voo.escolherBagagem("primeira");
+        this.voo.cadatrarDtHrPartida(1, 1, 2025, 12, 0);
+        this.voo.cadatrarDtHrChegada(1, 1, 2025, 18, 0);
+    }
 
-    //     CiaArea ciaArea = new CiaArea();
-    //     Aeroporto localPartida = new Aeroporto();
-    //     Aeroporto localChegada = new Aeroporto();
-    //     voo = new Voo(ciaArea, localPartida, localChegada);
+    @BeforeEach
+    public void configCenario() throws Exception {
+        this.funcionario = new Funcionario("Maria Betânia", " 259.657.910-38", "mari-beth@gmail.com", "mariaBeth", "testeSenha");
+        this.passageiro = new Passageiro("João", "123456789", "AB123456");
+        this.bilhete = new Bilhete(this.passageiro, this.funcionario);
+        this.configVoo();
+    }
 
-    //     Tarifa tarifa = new Tarifa(TipoVoo.DOMESTICO.name(), Moeda.REAL.name());
-    //     tarifa.setBusiness(300);
-    //     tarifa.setPremium(200);
-    //     tarifa.setBasica(100);
-    //     tarifa.setBagagem(50);
-    //     tarifa.setBagagemAdicional(30);
-    //     voo.cadastrarTarifa(TipoVoo.DOMESTICO.name(), Moeda.REAL.name());
-    //     voo.setTarifa(tarifa);
-    //     voo.escolherBagagem(Bagagem.ADICIONAL.name());
-    //     voo.escolherClasse(ClasseVoo.BASICA.name());
-        
-    //     voo.getValorPassagem();
-    //     voo.getValorBagagem();
-    // }
+    @Test
+    public void testAdicionarVoo() throws Exception {
+        bilhete.adicionarVoo(voo);
+        assertEquals(1, bilhete.getVoos().size());
+    }
 
-    // @Test
-    // void testAdicionarVoo() {
-    //     bilhete.adicionarVoo(voo);
-    //     assertEquals(1, bilhete.getVoos().size(), "Deve haver 1 voo adicionado.");
-    
-    //     double valorTotal = bilhete.getValorTotal();
-    //     System.out.println("Valor total após adicionar voo: " + valorTotal);
-    //     assertTrue(valorTotal > 0, "O valor total deve ser maior que zero após adicionar um voo.");
-    // }
-    
-    // @Test
-    // void testCalcularValorTotal() {
-    //     bilhete.adicionarVoo(voo);
-    //     bilhete.calcularValorTotal();
-    //     assertTrue(bilhete.getValorTotal() > 0, "O valor total deve ser maior que zero.");
-    // }
+    @Test
+    public void testAdicionarVooCorreto() throws Exception {
+        bilhete.adicionarVoo(voo);
+        assertEquals(voo, bilhete.getVoos().get(0));
+    }
 
-    // @Test
-    // void testCalcularValorTotalSemBagagem() {
-    //     bilhete.adicionarVoo(voo);
-    //     bilhete.calcularValorTotalSemBagagem();
-    //     assertTrue(bilhete.getValorTotalSemBagagem() >= 0, "O valor total sem bagagem não deve ser negativo.");
-    // }
+    @Test
+    public void testCalcularValorTotal() throws Exception {
+        bilhete.adicionarVoo(voo);
+        assertEquals(voo.getValorPassagem(), bilhete.getValorTotal());
+    }
 
-    // @Test
-    // void testCalcularRemuneracaoAgencia() {
-    //     bilhete.adicionarVoo(voo);
-    //     bilhete.calcularRemuneracaoAgencia();
-    //     assertTrue(bilhete.getRemuneracaoAgencia() >= 0, "A remuneração da agência não deve ser negativa.");
-    // }
+    @Test
+    public void testCalcularValorTotalSemBagagem() throws Exception {
+        bilhete.adicionarVoo(voo);
+        double valorSemBagagem = voo.getValorPassagem() - voo.getValorBagagem();
+        assertEquals(valorSemBagagem, bilhete.getValorTotalSemBagagem());
+    }
 
-    // @Test
-    // void testSetGetTipoDocumento() {
-    //     bilhete.setTipoDocumento(TipoDocumento.RG);
-    //     assertEquals(TipoDocumento.RG, bilhete.getTipoDocumento(), "O tipo de documento deve ser RG.");
-    // }
+    @Test
+    public void testCalcularRemuneracaoAgencia() throws Exception {
+        bilhete.adicionarVoo(voo);
+        bilhete.calcularRemuneracaoAgencia();
+        double remuneracaoEsperada = bilhete.getValorTotalSemBagagem() * 0.10;
+        assertEquals(remuneracaoEsperada, bilhete.getRemuneracaoAgencia());
+    }
+
+    @Test
+    public void testSetTipoDocumento() throws Exception {
+        bilhete.setTipoDocumento("RG");
+        assertEquals(TipoDocumento.RG, bilhete.getTipoDocumento());
+    }
+
+    @Test
+    public void testSetTipoDocumentoInvalido() {
+        IllegalArgumentException excecao =  assertThrows(IllegalArgumentException.class, () -> 
+            bilhete.setTipoDocumento("CPF")
+        );
+        assertEquals(excecao.getMessage(), "Tipo de documento inválido.");
+    }
+
+    @Test
+    public void testGetFuncionario() {
+        assertEquals(this.funcionario, bilhete.getFuncionario());
+    }
+
+    @Test
+    public void testGetPassageiro() {
+        assertEquals(this.passageiro, bilhete.getPassageiro());
+    }
 }
