@@ -3,33 +3,37 @@ package business;
 import enums.Bagagem;
 import enums.ClasseVoo;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Voo {
-    
     private String codigo;
     private Tarifa tarifa;
     private Bagagem bagagem;
-    private CiaAerea ciaAerea;
+    private CiaArea ciaArea;
     private ClasseVoo classe;
     private double valorPassagem, valorBagagem;
     private Aeroporto localPartida, localChegada;
     private LocalDateTime dtHrPartida, dtHrChegada;
 
-    public Voo(CiaAerea ciaAerea, Aeroporto localPartida, Aeroporto localChegada) {
-        this.ciaAerea = ciaAerea;
+    public Voo(CiaArea ciaArea, Aeroporto localPartida, Aeroporto localChegada) {
+        this.ciaArea = ciaArea;
         this.localPartida = localPartida;
         this.localChegada = localChegada;
-        this.codigo = Codigo.gerarCodigoVoo();
+        this.codigo = CodigoVoo.gerarCodigo();
     }
 
-    public CiaAerea getCiaArea() {
-        return this.ciaAerea;
+    public CiaArea getCiaArea() {
+        return this.ciaArea;
     }
 
     public String getCodigo() {
         return this.codigo;
     }
-    
+
+    public Tarifa getTarifa() {
+        return this.tarifa;
+    }
+
     public Aeroporto getLocalPartida() {
         return this.localPartida;
     }
@@ -38,11 +42,7 @@ public class Voo {
         return this.localChegada;
     }
 
-    public Tarifa getTarifa() {
-        return this.tarifa;
-    }
-
-    public void cadastrarTarifa(String tipoVoo, String moeda) throws Exception{
+    public void cadastrarTarifa(String tipoVoo, String moeda) throws Exception {
         this.tarifa = new Tarifa(tipoVoo, moeda);
     }
 
@@ -50,7 +50,7 @@ public class Voo {
         return this.dtHrPartida;
     }
 
-    public void cadatrarDtHrPartida(int dia, int mes, int ano, int horas, int minutos){
+    public void cadatrarDtHrPartida(int dia, int mes, int ano, int horas, int minutos) {
         this.dtHrPartida = LocalDateTime.of(ano, mes, dia, horas, minutos);
     }
 
@@ -74,17 +74,17 @@ public class Voo {
         }
     }
 
-    public double getValorBagagem() {
+    public double getValorBagagem() throws Exception {
         this.recuperarValorBagagem();
         return this.valorBagagem;
     }
 
-    private void recuperarValorBagagem() {
+    private void recuperarValorBagagem() throws Exception {
         if (this.bagagem == null) {
-            throw new RuntimeException("O tipo de bagagem deve ser escolhido antes de calcular seu valor.");
+            throw new Exception("O tipo de bagagem deve ser escolhido antes de calcular seu valor.");
         } else {
             switch (this.bagagem) {
-                case Bagagem.ADICIONAL:
+                case ADICIONAL:
                     this.valorBagagem = this.tarifa.getBagagem() + this.tarifa.getBagagemAdicional();
                     break;
                 default:
@@ -106,21 +106,21 @@ public class Voo {
         }
     }
 
-    public double getValorPassagem() {
+    public double getValorPassagem() throws Exception {
         this.recuperarValorPassagem();
         return this.valorPassagem;
     }
 
-    private void recuperarValorPassagem() {
+    private void recuperarValorPassagem() throws Exception {
         if (this.classe == null) {
-            throw new RuntimeException("A classe deve ser escolhida antes de calcular o valor da passagem.");
+            throw new Exception("A classe deve ser escolhida antes de calcular o valor da passagem.");
         } else {
             this.recuperarValorBagagem();
             switch (this.classe) {
-                case ClasseVoo.BUSINESS:
+                case BUSINESS:
                     this.valorPassagem = this.tarifa.getBusiness() + this.valorBagagem;
                     break;
-                case ClasseVoo.PREMIUM:
+                case PREMIUM:
                     this.valorPassagem = this.tarifa.getPremium() + this.valorBagagem;
                     break;
                 default:
@@ -129,4 +129,19 @@ public class Voo {
             }
         }
     }
-}
+
+    @Override
+    public String toString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        return "Voo{" +
+                "codigo='" + this.codigo + '\'' +
+                ", ciaArea=" + this.ciaArea +
+                ", classe=" + this.classe +
+                ", valorPassagem=" + this.valorPassagem +
+                ", valorBagagem=" + this.valorBagagem +
+                ", localPartida=" + this.localPartida +
+                ", localChegada=" + this.localChegada +
+                ", dtHrPartida=" + (dtHrPartida != null ? dtHrPartida.format(formatter) : "não definido") +
+                ", dtHrChegada=" + (dtHrChegada != null ? dtHrChegada.format(formatter) : "não definido") +
+                '}';
+    }
