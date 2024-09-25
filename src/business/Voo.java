@@ -18,7 +18,7 @@ public class Voo {
         this.ciaArea = ciaArea;
         this.localPartida = localPartida;
         this.localChegada = localChegada;
-        this.codigo = CodigoVoo.gerarCodigo();
+        this.codigo = Codigo.gerarCodigoVoo();
     }
 
     public CiaArea getCiaArea() {
@@ -29,16 +29,16 @@ public class Voo {
         return this.codigo;
     }
     
-    public Tarifa getTarifa() {
-        return this.tarifa;
-    }
-
     public Aeroporto getLocalPartida() {
         return this.localPartida;
     }
 
     public Aeroporto getLocalChegada() {
         return this.localChegada;
+    }
+
+    public Tarifa getTarifa() {
+        return this.tarifa;
     }
 
     public void cadastrarTarifa(String tipoVoo, String moeda) throws Exception{
