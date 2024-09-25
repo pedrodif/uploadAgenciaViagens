@@ -1,13 +1,11 @@
 package test;
 
 import static org.junit.Assert.*;
-
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import business.Aeroporto;
-import business.CiaAerea;
-import business.Voo;
+
 
 
 public class AeroportoTest {

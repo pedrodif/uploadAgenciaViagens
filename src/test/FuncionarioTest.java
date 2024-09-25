@@ -1,10 +1,10 @@
 package test;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
 
 import business.Funcionario;
-
 
 public class FuncionarioTest {
 
@@ -15,35 +15,35 @@ public class FuncionarioTest {
     private String login = "matheus.fer";
     private String senha = "112233mF";
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        funcionario = new Funcionario(nome, cpf, email, login, senha);
+        this.funcionario = new Funcionario(this.nome, this.cpf, this.email, this.login, this.senha);
     }
 
     @Test
     public void testSetNome() {
-        assertEquals(nome, funcionario.getNome());
+        assertEquals(this.nome, this.funcionario.getNome());
     }
 
 
     @Test
     public void testSetCpfFormatado() {
-        assertEquals(cpf, funcionario.getCpfFormatado());
+        assertEquals(this.cpf, this.funcionario.getCpfFormatado());
     }
 
     @Test
     public void testSetEmail() {
-        assertEquals(email, funcionario.getEmail());
+        assertEquals(this.email, this.funcionario.getEmail());
     }
 
     @Test
     public void testSetLogin() {
-        assertEquals(login, funcionario.getLogin());
+        assertEquals(this.login, this.funcionario.getLogin());
     }
 
     @Test
     public void testSetSenha() {
-        assertEquals(senha, funcionario.getSenha());
+        assertEquals(this.senha, this.funcionario.getSenha());
     }
 }
 
