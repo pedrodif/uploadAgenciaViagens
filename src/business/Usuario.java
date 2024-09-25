@@ -1,7 +1,7 @@
 package business;
 
-import java.util.List;
 import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,7 +37,7 @@ public class Usuario {
     }
 
     public boolean setNome(String nome) {
-        if (nome != null && !nome.trim().isEmpty()) {
+        if (nome != null && nome.matches("[A-Za-zÀ-ÖØ-öø-ÿ ]+")) {
             this.nome = nome;
             return true;
         }    

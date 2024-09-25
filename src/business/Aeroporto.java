@@ -24,8 +24,12 @@ public class Aeroporto {
         return this.nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public boolean setNome(String nome) {
+        if (nome != null && nome.matches("[A-Za-zÀ-ÖØ-öø-ÿ ]+")) {
+            this.nome = nome;
+            return true;
+        }
+        return false;   
     }
 
     public String getSigla() {

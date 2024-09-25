@@ -31,7 +31,7 @@ public class CiaAerea {
     }
 
     public boolean setNome(String nome) {
-        if (nome != null && !nome.trim().isEmpty() && nome.matches("[A-Za-zÀ-ÖØ-öø-ÿ ]+")) {
+        if (nome != null && nome.matches("[A-Za-zÀ-ÖØ-öø-ÿ ]+")) {
             this.nome = nome;
             return true;
         }
@@ -62,7 +62,7 @@ public class CiaAerea {
         return this.voos.add(new Voo(this, localPartida, localChegada));
     }
 
-    private Voo localizarVoo(String codigo){
+    protected Voo localizarVoo(String codigo){
         return this.voos.stream().filter(voo -> voo.getCodigo().equals(codigo)).findFirst().orElse(null);
     }
 
