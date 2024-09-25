@@ -1,40 +1,33 @@
 package business;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.time.LocalDateTime;
 
 public class CiaAerea {
+
     private UUID codigo;
-    private String nome;
-    private String razaoSocial;
-    private String cnpj;
     private ArrayList<Voo> voos;
+    private String razaoSocial, cnpj, nome;
 
     public CiaAerea() { this.codigo = UUID.randomUUID(); }
 
     public CiaAerea(String nome, String razaoSocial, String cnpj) {
-        this.codigo = UUID.randomUUID();
+        this.cnpj = cnpj;
         this.nome = nome;
         this.razaoSocial = razaoSocial;
-        this.cnpj = cnpj;
-    }
-
-    public CiaAerea(String nome, String razaoSocial, String cnpj, ArrayList<Voo> voos) {
         this.codigo = UUID.randomUUID();
-        this.nome = nome;
-        this.razaoSocial = razaoSocial;
-        this.cnpj = cnpj;
-        this.voos = voos;
+        this.voos = new ArrayList<Voo>();
     }
 
     public UUID getCodigo() {
-        return codigo;
+        return this.codigo;
     }
 
     public String getNome() {
-        return nome;
+        return this.nome;
     }
 
     public boolean setNome(String nome) {
@@ -46,7 +39,7 @@ public class CiaAerea {
     }
 
     public String getRazaoSocial() {
-        return razaoSocial;
+        return this.razaoSocial;
     }
 
     public void setRazaoSocial(String razaoSocial) {
@@ -54,26 +47,32 @@ public class CiaAerea {
     }
 
     public String getCnpj() {
-        return cnpj;
+        return this.cnpj;
     }
 
     public void setCnpj(String cnpj) {
         this.cnpj = cnpj;
     }
 
-    public ArrayList<Voo> getVoos() {
-        return voos;
+    public List<Voo> getVoos() {
+        return Collections.unmodifiableList(this.voos);
     }
 
-    public void setVoos(ArrayList<Voo> voos) {
-        this.voos = voos;
-    }
-
-    public boolean adicionarVoo(Aeroporto localPartida, Aeroporto localChegada) {
+    public boolean cadastrarVoo(Aeroporto localPartida, Aeroporto localChegada) {
         return this.voos.add(new Voo(this, localPartida, localChegada));
     }
 
-    public boolean removerVoo(Voo voo) {
+    private Voo localizarVoo(String codigo){
+        return this.voos.stream().filter(voo -> voo.getCodigo().equals(codigo)).findFirst().orElse(null);
+    }
+
+    public boolean removerVoo(String codigo) throws Exception  {
+        Voo voo = localizarVoo(codigo);
+
+        if(voo == null) {
+            throw new IllegalArgumentException("Não foi encontrado nenhum voo com o código informado.");
+        } 
+
         return this.voos.remove(voo);
     }
 

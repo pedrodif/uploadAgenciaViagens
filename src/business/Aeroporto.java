@@ -1,16 +1,15 @@
 package business;
 
+import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Aeroporto {
-    private String nome;
-    private String sigla;
-    private String cidade;
-    private String estado;
-    private String pais;
-    private ArrayList<Voo> voos;
 
-    public Aeroporto() { }
+    private ArrayList<Voo> voos;
+    private String nome, sigla, cidade, estado, pais;
+
+    public Aeroporto() {}
 
     public Aeroporto(String nome, String sigla, String cidade, String estado, String pais) {
         this.nome = nome;
@@ -18,31 +17,19 @@ public class Aeroporto {
         this.cidade = cidade;
         this.estado = estado;
         this.pais = pais;
-    }
-
-    public Aeroporto(String nome, String sigla, String cidade, String estado, String pais, ArrayList<Voo> voos) {
-        this.nome = nome;
-        this.sigla = sigla;
-        this.cidade = cidade;
-        this.estado = estado;
-        this.pais = pais;
-        this.voos = voos;
+        this.voos = new ArrayList<Voo>();
     }
 
     public String getNome() {
-        return nome;
+        return this.nome;
     }
 
-    public boolean setNome(String nome) {
-        if (nome != null && !nome.trim().isEmpty() && nome.matches("[A-Za-zÀ-ÖØ-öø-ÿ ]+")) {
-            this.nome = nome;
-            return true;
-        }
-        return false;   
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getSigla() {
-        return sigla;
+        return this.sigla;
     }
 
     public void setSigla(String sigla) {
@@ -50,7 +37,7 @@ public class Aeroporto {
     }
 
     public String getCidade() {
-        return cidade;
+        return this.cidade;
     }
 
     public void setCidade(String cidade) {
@@ -58,7 +45,7 @@ public class Aeroporto {
     }
 
     public String getEstado() {
-        return estado;
+        return this.estado;
     }
 
     public void setEstado(String estado) {
@@ -66,19 +53,11 @@ public class Aeroporto {
     }
 
     public String getPais() {
-        return pais;
+        return this.pais;
     }
 
     public void setPais(String pais) {
         this.pais = pais;
-    }
-
-    public ArrayList<Voo> getVoos() {
-        return voos;
-    }
-
-    public void setVoos(ArrayList<Voo> voos) {
-        this.voos = voos;
     }
 
     public boolean adicionarVoo(Voo voo) {
@@ -87,5 +66,13 @@ public class Aeroporto {
 
     public boolean removerVoo(Voo voo) {
         return this.voos.remove(voo);
+    }
+
+    public List<Voo> getVoos() {
+        return Collections.unmodifiableList(this.voos);
+    }
+
+    public void setVoos(ArrayList<Voo> voos) {
+        this.voos = voos;
     }
 }

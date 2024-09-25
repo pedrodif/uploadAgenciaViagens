@@ -5,6 +5,7 @@ import enums.ClasseVoo;
 import java.time.LocalDateTime;
 
 public class Voo {
+    
     private String codigo;
     private Tarifa tarifa;
     private Bagagem bagagem;

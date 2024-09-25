@@ -4,7 +4,7 @@ import business.Bilhete;
 import business.Tarifa;
 import business.Funcionario;
 import business.Voo;
-import business.CiaArea;
+import business.CiaAerea;
 import business.Aeroporto;
 import enums.TipoDocumento;
 import enums.Bagagem;
