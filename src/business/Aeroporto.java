@@ -75,4 +75,16 @@ public class Aeroporto {
     public void setVoos(ArrayList<Voo> voos) {
         this.voos = voos;
     }
+
+    @Override
+    public String toString() {
+        return "Aeroporto{" +
+                "nome='" + this.nome + '\'' +
+                ", sigla='" + this.sigla + '\'' +
+                ", cidade='" + this.cidade + '\'' +
+                ", estado='" + this.estado + '\'' +
+                ", pais='" + this.pais + '\'' +
+                ", voos=" + this.voos +
+                '}';
+    }
 }
