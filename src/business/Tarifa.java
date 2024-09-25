@@ -4,6 +4,7 @@ import enums.Moeda;
 import enums.TipoVoo;
 
 public class Tarifa {
+    
     private Moeda moeda;
     private TipoVoo tipoVoo;
     private double basica, business, premium, bagagem, bagagemAdicional;
