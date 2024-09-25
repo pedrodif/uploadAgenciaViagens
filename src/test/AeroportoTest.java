@@ -12,7 +12,7 @@ public class AeroportoTest {
 
      @BeforeEach
      public void setUp() {
-         aeroporto = new Aeroporto("Aeroporto de Confins", "CNF", "Belo Horizonte", "MG", "Brasil");
+         aeroporto = new Aeroporto();
      }
 
      @Test
