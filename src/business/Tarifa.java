@@ -4,13 +4,12 @@ import enums.Moeda;
 import enums.TipoVoo;
 
 public class Tarifa {
-    
     private Moeda moeda;
     private TipoVoo tipoVoo;
     private double basica, business, premium, bagagem, bagagemAdicional;
     private static final double VALOR_DOLAR = 5.52;
 
-    public Tarifa(String tipoVoo, String moeda) throws Exception{
+    public Tarifa(String tipoVoo, String moeda) throws Exception {
         try {
             this.tipoVoo = TipoVoo.valueOf(tipoVoo.toUpperCase());
         } catch (IllegalArgumentException e) {
@@ -23,20 +22,20 @@ public class Tarifa {
             throw new IllegalArgumentException("Tipo de moeda inválida.");
         }
 
-        if(this.tipoVoo.equals(TipoVoo.DOMESTICO) && this.moeda.equals(Moeda.DOLAR)){
+        if (this.tipoVoo.equals(TipoVoo.DOMESTICO) && this.moeda.equals(Moeda.DOLAR)) {
             throw new Exception("É necessário utilizar o real como moeda para voos domésticos.");
         }
     }
 
-    private double aplicarConversaoMonetaria(double valor) throws Exception{
-        if(valor <= 0){
+    private double aplicarConversaoMonetaria(double valor) throws Exception {
+        if (valor <= 0) {
             throw new IllegalArgumentException("O valor informado deve ser maior que zero.");
         }
 
-        if(this.moeda == Moeda.REAL && this.tipoVoo.equals(TipoVoo.INTERNACIONAL)) {
+        if (this.moeda == Moeda.REAL && this.tipoVoo.equals(TipoVoo.INTERNACIONAL)) {
             return Math.round((valor / VALOR_DOLAR) * 100.0) / 100.0;
         }
-       
+
         return valor;
     }
 
@@ -82,5 +81,29 @@ public class Tarifa {
 
     public void setBagagemAdicional(double bagagemAdicional) throws Exception {
         this.bagagemAdicional = aplicarConversaoMonetaria(bagagemAdicional);
+    }
+
+    @Override
+    public String toString() {
+        return "Tarifa{" +
+                "moeda=" + this.moeda +
+                ", tipoVoo=" + this.tipoVoo +
+                ", basica=" + this.basica +
+                ", business=" + this.business +
+                ", premium=" + this.premium +
+                ", bagagem=" + this.bagagem +
+                ", bagagemAdicional=" + this.bagagemAdicional +
+                '}';
+    }
+
+    public static void main(String[] args) throws Exception {
+        Tarifa tarifa = new Tarifa("internacional", "real");
+        tarifa.setBasica(1000);
+        tarifa.setBusiness(2000);
+        tarifa.setPremium(3000);
+        tarifa.setBagagem(100);
+        tarifa.setBagagemAdicional(150);
+
+        System.out.println(tarifa);
     }
 }
