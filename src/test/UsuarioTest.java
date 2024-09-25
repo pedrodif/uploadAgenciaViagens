@@ -39,7 +39,7 @@ public class UsuarioTest {
   public void testSetCpf() {
       String cpf = "123.456.789-00";
       usuario.setCpf(cpf);
-      assertEquals(cpf, usuario.getCpf());
+      assertEquals(cpf, usuario.getCpfFormatado());
   }
 
   @Test

@@ -2,14 +2,8 @@ package business;
 
 import java.util.Arrays;
 import java.util.List;
-<<<<<<< HEAD
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-=======
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-import org.mindrot.jbcrypt.BCrypt;
->>>>>>> 2c56be320ca209010a471214d2e1b18d83ee9824
 
 public class Usuario {
 
@@ -28,7 +22,7 @@ public class Usuario {
 
     public Usuario(String nome, String cpf, String email, String login, String senha) {
         this.nome = nome;
-        this.cpf = cpf;
+        this.setCpf(cpf);
         this.email = email;
         this.login = login;
         this.senha = senha;
@@ -45,16 +39,11 @@ public class Usuario {
         }    
         return false;
     }
-<<<<<<< HEAD
-    
-    public String getCpf() {
-=======
 
     public String getCpfFormatado() {
         if (cpf == null || cpf.length() != 11) {
             return null; 
         }
-
         StringBuilder formattedCpf = new StringBuilder();
         formattedCpf.append(cpf.substring(0, 3));
         formattedCpf.append(".");
@@ -63,18 +52,15 @@ public class Usuario {
         formattedCpf.append(cpf.substring(6, 9));
         formattedCpf.append("-");
         formattedCpf.append(cpf.substring(9));
-
         return formattedCpf.toString();
     }
 
-    private String getCpf() {
->>>>>>> 2c56be320ca209010a471214d2e1b18d83ee9824
-        return cpf;
-    }
-
     public void setCpf(String cpf) {
-        this.cpf = cpf;
-    };
+        if (cpf != null) {
+            String cpfSemSeparadores = cpf.replaceAll("[.-]", "");
+            this.cpf = cpfSemSeparadores;
+        }
+    }
 
     public String getEmail() {
         return email;
@@ -105,15 +91,8 @@ public class Usuario {
     }
 
     public void setSenha(String senha) {
-<<<<<<< HEAD
-        this.senha = senha;
-=======
-        this.senhaHash = hashPassword(senha);
-    }
+       this.senha = senha;
 
-    private String hashPassword(String password) {
-        return BCrypt.hashpw(password, BCrypt.gensalt());
->>>>>>> 2c56be320ca209010a471214d2e1b18d83ee9824
     }
 
     public Usuario login(String email, String senha) {
@@ -122,12 +101,4 @@ public class Usuario {
                 .findFirst()
                 .orElse(null);
     }
-<<<<<<< HEAD
 }
-=======
-
-    private boolean verificarSenha(String plainTextPassword, String hashedPassword) {
-        return BCrypt.checkpw(plainTextPassword, hashedPassword);
-    }
-}
->>>>>>> 2c56be320ca209010a471214d2e1b18d83ee9824
