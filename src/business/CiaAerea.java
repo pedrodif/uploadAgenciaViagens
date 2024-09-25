@@ -1,6 +1,5 @@
 package business;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +12,21 @@ public class CiaAerea {
     private String cnpj;
     private ArrayList<Voo> voos;
 
-    public CiaAerea() { }
+    public CiaAerea() { this.codigo = UUID.randomUUID(); }
 
     public CiaAerea(String nome, String razaoSocial, String cnpj) {
         this.codigo = UUID.randomUUID();
         this.nome = nome;
         this.razaoSocial = razaoSocial;
         this.cnpj = cnpj;
+    }
+
+    public CiaAerea(String nome, String razaoSocial, String cnpj, ArrayList<Voo> voos) {
+        this.codigo = UUID.randomUUID();
+        this.nome = nome;
+        this.razaoSocial = razaoSocial;
+        this.cnpj = cnpj;
+        this.voos = voos;
     }
 
     public UUID getCodigo() {
@@ -30,8 +37,12 @@ public class CiaAerea {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public boolean setNome(String nome) {
+        if (nome != null && !nome.trim().isEmpty() && nome.matches("[A-Za-zÀ-ÖØ-öø-ÿ ]+")) {
+            this.nome = nome;
+            return true;
+        }
+        return false;   
     }
 
     public String getRazaoSocial() {
@@ -58,12 +69,12 @@ public class CiaAerea {
         this.voos = voos;
     }
 
-    public boolean adicionarVoo(Voo voo) {
-        this.voos.add(voo);
+    public boolean adicionarVoo(Aeroporto localPartida, Aeroporto localChegada) {
+        return this.voos.add(new Voo(this, localPartida, localChegada));
     }
 
     public boolean removerVoo(Voo voo) {
-        this.voos.remove(voo);
+        return this.voos.remove(voo);
     }
 
     public List<Voo> pesquisarVoos(LocalDateTime dataPartida) {
@@ -73,7 +84,7 @@ public class CiaAerea {
                 voosEncontrados.add(voo);
             }
         }
-    return voosEncontrados;
+        return voosEncontrados;
     }
 
     public List<Voo> pesquisarVoos(String cidadePartida) {

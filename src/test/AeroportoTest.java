@@ -1,7 +1,6 @@
 package test;
 
-import static org.junit.Assert.assertThrows;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,9 +26,19 @@ public class AeroportoTest {
 
     @Test
     public void testSetNome() {
-        aeroporto.setNome("Novo Aeroporto");
+        boolean result = aeroporto.setNome("Novo Aeroporto");
+        assertTrue(result);
         assertEquals("Novo Aeroporto", aeroporto.getNome());
+    
+        result = aeroporto.setNome("");
+        assertFalse(result);
+        assertNotEquals("", aeroporto.getNome()); 
+    
+        result = aeroporto.setNome("Aeroporto#123");
+        assertFalse(result);
+        assertNotEquals("Aeroporto#123", aeroporto.getNome());
     }
+    
 
     @Test
     public void testGetSigla() {

@@ -8,21 +8,21 @@ public class Voo {
     private String codigo;
     private Tarifa tarifa;
     private Bagagem bagagem;
-    private CiaArea ciaArea;
+    private CiaAerea ciaAerea;
     private ClasseVoo classe;
     private double valorPassagem, valorBagagem;
     private Aeroporto localPartida, localChegada;
     private LocalDateTime dtHrPartida, dtHrChegada;
 
-    public Voo(CiaArea ciaArea, Aeroporto localPartida, Aeroporto localChegada) {
-        this.ciaArea = ciaArea;
+    public Voo(CiaAerea ciaAerea, Aeroporto localPartida, Aeroporto localChegada) {
+        this.ciaAerea = ciaAerea;
         this.localPartida = localPartida;
         this.localChegada = localChegada;
         this.codigo = Codigo.gerarCodigoVoo();
     }
 
-    public CiaArea getCiaArea() {
-        return this.ciaArea;
+    public CiaAerea getCiaArea() {
+        return this.ciaAerea;
     }
 
     public String getCodigo() {

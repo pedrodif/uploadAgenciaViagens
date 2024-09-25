@@ -1,6 +1,5 @@
 package business;
 
-<<<<<<< HEAD
 import java.util.ArrayList;
 
 public class Aeroporto {
@@ -11,6 +10,8 @@ public class Aeroporto {
     private String pais;
     private ArrayList<Voo> voos;
 
+    public Aeroporto() { }
+
     public Aeroporto(String nome, String sigla, String cidade, String estado, String pais) {
         this.nome = nome;
         this.sigla = sigla;
@@ -19,12 +20,25 @@ public class Aeroporto {
         this.pais = pais;
     }
 
+    public Aeroporto(String nome, String sigla, String cidade, String estado, String pais, ArrayList<Voo> voos) {
+        this.nome = nome;
+        this.sigla = sigla;
+        this.cidade = cidade;
+        this.estado = estado;
+        this.pais = pais;
+        this.voos = voos;
+    }
+
     public String getNome() {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public boolean setNome(String nome) {
+        if (nome != null && !nome.trim().isEmpty() && nome.matches("[A-Za-zÀ-ÖØ-öø-ÿ ]+")) {
+            this.nome = nome;
+            return true;
+        }
+        return false;   
     }
 
     public String getSigla() {
@@ -74,8 +88,4 @@ public class Aeroporto {
     public boolean removerVoo(Voo voo) {
         return this.voos.remove(voo);
     }
-=======
-public class Aeroporto {
-    
->>>>>>> 575fcd900bbc8adbd00f640e2dc7c4cc07356114
 }
