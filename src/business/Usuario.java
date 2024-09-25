@@ -1,35 +1,38 @@
 package business;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Usuario {
 
-    private String nome;
-    private String cpf;
-    private String email;
-    private String login;
-    private String senha;
-
+    private String nome, cpf, email, login, senha;
     public static final List<Usuario> MOCK_USUARIOS = Arrays.asList(
         new Usuario("User1", "12345678901", "user1@example.com", "user1", "password1"),
         new Usuario("User2", "10987654321", "user2@example.com", "user2", "password2")
     );
 
-    public Usuario() { }
+    public Usuario() {}
 
     public Usuario(String nome, String cpf, String email, String login, String senha) {
-        this.nome = nome;
+        this.setNome(nome);
         this.setCpf(cpf);
-        this.email = email;
+        this.setEmail(email);
         this.login = login;
         this.senha = senha;
     }
 
+    public String getSenha() {
+        return this.senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
     public String getNome() {
-        return nome;
+        return this.nome;
     }
 
     public boolean setNome(String nome) {
@@ -63,7 +66,7 @@ public class Usuario {
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     public boolean setEmail(String email) {
@@ -79,20 +82,11 @@ public class Usuario {
     }
 
     public String getLogin() {
-        return login;
+        return this.login;
     }
 
     public void setLogin(String login) {
         this.login = login;
-    }
-
-    public String getSenha() {
-        return null;
-    }
-
-    public void setSenha(String senha) {
-       this.senha = senha;
-
     }
 
     public Usuario login(String email, String senha) {
