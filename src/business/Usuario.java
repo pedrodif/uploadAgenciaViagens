@@ -7,11 +7,12 @@ import java.util.regex.Pattern;
 
 public class Usuario {
 
-    private String nome, cpf, email, login, senha;
     public static final List<Usuario> MOCK_USUARIOS = Arrays.asList(
         new Usuario("User1", "12345678901", "user1@example.com", "user1", "password1"),
         new Usuario("User2", "10987654321", "user2@example.com", "user2", "password2")
     );
+
+    private String nome, cpf, email, login, senha;
 
     public Usuario() {}
 
