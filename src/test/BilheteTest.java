@@ -1,13 +1,14 @@
 package test;
 
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.*;
 
-import business.Bilhete;
-import business.Funcionario;
-import business.Passageiro;
 import business.Voo;
+import business.Bilhete;
+import business.Passageiro;
+import business.Funcionario;
+
 import enums.TipoDocumento;
 
 public class BilheteTest {
@@ -75,9 +76,10 @@ public class BilheteTest {
 
     @Test
     public void testSetTipoDocumentoInvalido() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            bilhete.setTipoDocumento("CPF");
-        }, "Tipo de documento inválido.");
+        IllegalArgumentException excecao =  assertThrows(IllegalArgumentException.class, () -> 
+            bilhete.setTipoDocumento("CPF")
+        );
+        assertEquals(excecao.getMessage(), "Tipo de documento inválido.");
     }
 
     @Test
