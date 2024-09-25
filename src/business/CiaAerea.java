@@ -66,33 +66,43 @@ public class CiaAerea {
         return this.voos.stream().filter(voo -> voo.getCodigo().equals(codigo)).findFirst().orElse(null);
     }
 
-    public boolean removerVoo(String codigo) throws Exception  {
+    public boolean removerVoo(String codigo) {
         Voo voo = localizarVoo(codigo);
 
-        if(voo == null) {
-            throw new IllegalArgumentException("Não foi encontrado nenhum voo com o código informado.");
-        } 
-
+        if(voo == null) return false;
         return this.voos.remove(voo);
     }
 
-    public List<Voo> pesquisarVoos(LocalDateTime dataPartida) {
+    public List<Voo> pesquisarVoos(String cidadeOrigem, String cidadeDestino, LocalDateTime dataPartida) {
+        List<Voo> voosCidadePartida = pesquisarVoosCidadeOrigem(cidadeOrigem);
+        List<Voo> voosCidadeDestino = pesquisarVoosCidadeDestino(cidadeDestino);
         List<Voo> voosEncontrados = new ArrayList<>();
+
         for (Voo voo : this.voos) {
-            if (voo.getDtHrPartida() != null && voo.getDtHrPartida().toLocalDate().equals(dataPartida.toLocalDate())) {
+            if (voosCidadePartida.contains(voo) && voosCidadeDestino.contains(voo) && voo.getDtHrPartida().toLocalDate().equals(dataPartida.toLocalDate())) {
                 voosEncontrados.add(voo);
             }
         }
         return voosEncontrados;
     }
 
-    public List<Voo> pesquisarVoos(String cidadePartida) {
-        List<Voo> voosEncontrados = new ArrayList<>();
+    private List<Voo> pesquisarVoosCidadeOrigem(String cidadeOrigem){
+        List<Voo> voosEncontradosPartida = new ArrayList<>();
+
         for (Voo voo : this.voos) {
-            if (voo.getLocalPartida() != null && voo.getLocalPartida().getCidade().equalsIgnoreCase(cidadePartida)) {
-                voosEncontrados.add(voo);
-            }
+            if (voo.getLocalPartida() != null && voo.getLocalPartida().getCidade().equalsIgnoreCase(cidadeOrigem))
+                voosEncontradosPartida.add(voo);
         }
-        return voosEncontrados;
+        return voosEncontradosPartida;
+    }
+
+    private List<Voo> pesquisarVoosCidadeDestino(String cidadeDestino){
+        List<Voo> voosEncontradosChegada = new ArrayList<>();
+
+        for (Voo voo : this.voos) {
+            if (voo.getLocalChegada() != null && voo.getLocalChegada().getCidade().equalsIgnoreCase(cidadeDestino))
+                voosEncontradosChegada.add(voo);
+        }
+        return voosEncontradosChegada;
     }
 }
