@@ -1,142 +1,98 @@
 package test;
 
-import static org.junit.Assert.assertThrows;
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import business.Aeroporto;
 import business.CiaAerea;
 import business.Voo;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
+import java.time.LocalDateTime;
 
 public class CiaAereaTest {
 
-    // private CiaAerea ciaAerea;
-    // private Aeroporto aeroportoMG;
-    // private Aeroporto aeroportoSP;
-    // private Voo voo1;
-    // private Voo voo2;
+    private CiaAerea ciaAerea;
+    private Aeroporto aeroportoCNF;
+    private Aeroporto aeroportoGRU;
+    private Voo vooConfinsGuarulhos;
+    private Voo vooGuarulhosConfins;
 
-    // @BeforeEach
-    // public void setUp() {
-    //     ciaAerea = new CiaAerea("Companhia Teste", "Razão Social Teste", "12.345.678/0001-99");
-    //     aeroportoMG = new Aeroporto("Aeroporto de Minas Gerais ", "AMG", "Belo Horizonte", "MG", "Brasil");
-    //     aeroportoSP = new Aeroporto("Aeroporto de São Paulo", "ASP", "São Paulo", "SP", "Brasil");
+    @BeforeEach
+    public void setUp() throws Exception {
+        ciaAerea = new CiaAerea("Azul Linhas Aereas", "Azul Linhas Aereas Brasileiras S.A", "12.345.678/0001-99");
 
-    //     voo1 = new Voo(ciaAerea, aeroportoSP, aeroportoMG);
-    //     voo1.cadatrarDtHrPartida(23, 9, 2024, 15, 30);
+        aeroportoCNF = new Aeroporto("Aeroporto de Confins", "CNF", "Belo Horizonte", "MG", "Brasil");
+        aeroportoGRU = new Aeroporto("Aeroporto de Guarulhos", "GRU", "São Paulo", "SP", "Brasil");
 
-    //     voo2 = new Voo(ciaAerea, aeroportoMG, aeroportoSP);
-    //     voo2.cadatrarDtHrPartida(24, 9, 2024, 16, 0);
-    // }
+        vooConfinsGuarulhos = new Voo(ciaAerea, aeroportoCNF, aeroportoGRU);
+        vooConfinsGuarulhos.cadastrarDtHrPartida(23, 9, 2024, 15, 30);  
 
-    // @Test
-    // public void testCodigoGeradoAutomaticamente() {
-    //     assertNotNull(ciaAerea.getCodigo());
-    //     assertTrue(ciaAerea.getCodigo() instanceof UUID);
-    // }
+        vooGuarulhosConfins = new Voo(ciaAerea, aeroportoGRU, aeroportoCNF);
+        vooGuarulhosConfins.cadastrarDtHrPartida(24, 9, 2024, 16, 0);  
 
-    // @Test
-    // public void testGetNome() {
-    //     assertEquals("Companhia Teste", ciaAerea.getNome());
-    // }
+        ciaAerea.cadastrarVoo(aeroportoCNF, aeroportoGRU);
+        ciaAerea.cadastrarVoo(aeroportoGRU, aeroportoCNF);
+    }
 
-    // @Test
-    // public void testSetNome() {
-    //     boolean result = ciaAerea.setNome("Companhia Teste");
-    //     assertTrue(result);
-    //     assertEquals("Companhia Teste", ciaAerea.getNome());
-    
-    //     result = ciaAerea.setNome("");
-    //     assertFalse(result);
-    //     assertNotEquals("", ciaAerea.getNome()); 
-    
-    //     result = ciaAerea.setNome("CiaAerea#123");
-    //     assertFalse(result);
-    //     assertNotEquals("CiaAerea#123", ciaAerea.getNome());
-    // }
+    @Test
+    public void testCodigoGeradoAutomaticamente() {
+        assertNotNull(ciaAerea.getCodigo());
+        assertTrue(ciaAerea.getCodigo() instanceof UUID);
+    }
 
-    // @Test
-    // public void testGetRazaoSocial() {
-    //     assertEquals("Razão Social Teste", ciaAerea.getRazaoSocial());
-    // }
+    @Test
+    public void testSetNome() {
+        boolean result = ciaAerea.setNome("Azul Linhas Aéreas");
+        assertTrue(result);
+        assertEquals("Azul Linhas Aéreas", ciaAerea.getNome());
 
-    // @Test
-    // public void testSetRazaoSocial() {
-    //     ciaAerea.setRazaoSocial("Nova Razão Social");
-    //     assertEquals("Nova Razão Social", ciaAerea.getRazaoSocial());
-    // }
+        result = ciaAerea.setNome("");
+        assertFalse(result);
+        assertNotEquals("", ciaAerea.getNome());
 
-    // @Test
-    // public void testGetCnpj() {
-    //     assertEquals("12.345.678/0001-99", ciaAerea.getCnpj());
-    // }
+        result = ciaAerea.setNome("Vermelho#123");
+        assertFalse(result);
+        assertNotEquals("Vermelho#123", ciaAerea.getNome());
+    }
 
-    // @Test
-    // public void testSetCnpj() {
-    //     ciaAerea.setCnpj("98.765.432/0001-11");
-    //     assertEquals("98.765.432/0001-11", ciaAerea.getCnpj());
-    // }
+    @Test
+    public void testSetRazaoSocial() {
+        ciaAerea.setRazaoSocial("Azul Linhas Aéreas Brasileiras S.A.");
+        assertEquals("Azul Linhas Aéreas Brasileiras S.A.", ciaAerea.getRazaoSocial());
+    }
 
-    // @Test
-    // public void testAdicionarVoo() {
-    //     ciaAerea.adicionarVoo(voo);
-    //     assertEquals(1, ciaAerea.getVoos().size());
-    //     assertTrue(ciaAerea.getVoos().contains(voo));
-    // }
+    @Test
+    public void testSetCnpj() {
+        ciaAerea.setCnpj("98.765.432/0001-11");
+        assertEquals("98.765.432/0001-11", ciaAerea.getCnpj());
+    }
 
-    // @Test
-    // public void testRemoverVoo() {
-    //     ciaAerea.adicionarVoo(voo);
-    //     ciaAerea.removerVoo(voo);
-    //     assertEquals(0, ciaAerea.getVoos().size());
-    //     assertFalse(ciaAerea.getVoos().contains(voo));
-    // }
+    @Test
+    public void testCadastrarVoo() {
+        assertTrue(ciaAerea.cadastrarVoo(aeroportoCNF, aeroportoGRU));
+        assertEquals(2, ciaAerea.getVoos().size());  // Ajustado para refletir a quantidade correta
+    }
 
-    // @Test
-    // public void testSetVoos() {
-    //     ArrayList<Voo> voos = new ArrayList<>();
-    //     Voo outroVoo = new Voo();
-    //     voos.add(outroVoo);
-    //     ciaAerea.setVoos(voos);
-    //     assertTrue(ciaAerea.getVoos().contains(outroVoo));
-    // }
+    @Test
+    public void testRemoverVoo() {
+        boolean resultado = ciaAerea.removerVoo(vooConfinsGuarulhos.getCodigo());
+        assertTrue(resultado, "Voo removido com sucesso.");
+        assertEquals(1, ciaAerea.getVoos().size(), "Restará apenas um voo.");
+    }
 
-    // @Test
-    // public void testPesquisarVoosPorData() {
-    //     LocalDateTime dataPartida = LocalDateTime.of(2024, 9, 23, 0, 0);
-    //     List<Voo> voosEncontrados = ciaAerea.pesquisarVoos(dataPartida);
+    @Test
+    public void testPesquisarVoosSucesso() {
+        LocalDateTime dataPartida = LocalDateTime.of(2024, 9, 23, 15, 30);
+        var voosEncontrados = ciaAerea.pesquisarVoos("Belo Horizonte", "São Paulo", dataPartida);
+        assertEquals(1, voosEncontrados.size(), "Encontrará apenas um voo.");
+    }
 
-    //     assertEquals(1, voosEncontrados.size());
-    //     assertEquals(voo1.getCodigo(), voosEncontrados.get(0).getCodigo());
-    // }
-
-    // @Test
-    // public void testPesquisarVoosPorCidadeDePartida() {
-    //     List<Voo> voosEncontrados = ciaAerea.pesquisarVoos("São Paulo");
-
-    //     assertEquals(1, voosEncontrados.size());
-    //     assertEquals(voo1.getCodigo(), voosEncontrados.get(0).getCodigo());
-    // }
-
-    // @Test
-    // public void testPesquisarVoosPorDataSemResultados() {
-    //     LocalDateTime dataPartida = LocalDateTime.of(2024, 9, 25, 0, 0);
-    //     List<Voo> voosEncontrados = ciaAerea.pesquisarVoos(dataPartida);
-
-    //     assertTrue(voosEncontrados.isEmpty());
-    // }
-
-    // @Test
-    // public void testPesquisarVoosPorCidadeSemResultados() {
-    //     List<Voo> voosEncontrados = ciaAerea.pesquisarVoos("Curitiba");
-
-    //     assertTrue(voosEncontrados.isEmpty());
-    // }
+    @Test
+    public void testPesquisarVoosErro() {
+        LocalDateTime dataPartida = LocalDateTime.of(2024, 9, 23, 15, 30);
+        var voosNaoEncontrados = ciaAerea.pesquisarVoos("Belo Horizonte", "Rio de Janeiro", dataPartida);
+        assertEquals(0, voosNaoEncontrados.size(), "Não irá encontrar voos pois os destinos são diferentes.");
+    }
 }

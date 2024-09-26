@@ -1,7 +1,6 @@
 package test;
 
 import static org.junit.Assert.*;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
@@ -16,12 +15,12 @@ import business.CiaAerea;
 import business.Aeroporto;
 
 public class VooTest {
-    private Voo voo; 
+    private Voo voo;
     private CiaAerea latam;
-    private Aeroporto galeao, guarulhos; 
+    private Aeroporto galeao, guarulhos;
 
     @BeforeEach
-    public void configVoo(){
+    public void configVoo() {
         this.latam = new CiaAerea();
         this.galeao = new Aeroporto();
         this.guarulhos = new Aeroporto();
@@ -29,7 +28,7 @@ public class VooTest {
     }
 
     @Test
-    void testCriarVoo(){
+    void testCriarVoo() {
         assertNotNull(this.voo);
     }
 
@@ -41,7 +40,7 @@ public class VooTest {
     }
 
     @BeforeEach
-    public void configTarifa() throws Exception{
+    public void configTarifa() throws Exception {
         this.voo.cadastrarTarifa("domestico", "real");
         this.voo.getTarifa().setBasica(120);
         this.voo.getTarifa().setBusiness(200);
@@ -51,14 +50,14 @@ public class VooTest {
     }
 
     @Test
-    void testCadatrarDtHrPartida() {
-        this.voo.cadatrarDtHrPartida(22, 9, 2024, 13, 20);
+    void testCadastrarDtHrPartida() { 
+        this.voo.cadastrarDtHrPartida(22, 9, 2024, 13, 20);
         assertEquals(LocalDateTime.of(2024, 9, 22, 13, 20), this.voo.getDtHrPartida());
     }
 
     @Test
-    void testCadatrarDtHrChegada() {
-        this.voo.cadatrarDtHrChegada(22, 9, 2024, 14, 40);
+    void testCadastrarDtHrChegada() { 
+        this.voo.cadastrarDtHrChegada(22, 9, 2024, 14, 40);
         assertEquals(LocalDateTime.of(2024, 9, 22, 14, 40), this.voo.getDtHrChegada());
     }
 
@@ -71,7 +70,7 @@ public class VooTest {
     @Test
     void testEscolherBagagemErro() throws Exception {
         Exception excecao = assertThrows(Exception.class, () -> this.voo.escolherBagagem("unica"));
-        assertEquals(excecao.getMessage(), "Tipo de bagagem inválida.");
+        assertEquals("Tipo de bagagem inválida.", excecao.getMessage());
     }
 
     @Test
@@ -82,8 +81,8 @@ public class VooTest {
 
     @Test
     void testRecuperarValorBagagemErro() {
-        RuntimeException excecao = (RuntimeException) assertThrows(Exception.class, () -> this.voo.getValorBagagem());
-        assertEquals(excecao.getMessage(), "O tipo de bagagem deve ser escolhido antes de calcular seu valor.");
+        RuntimeException excecao = assertThrows(RuntimeException.class, () -> this.voo.getValorBagagem());
+        assertEquals("O tipo de bagagem deve ser escolhido antes de calcular seu valor.", excecao.getMessage());
     }
 
     @Test
@@ -95,7 +94,7 @@ public class VooTest {
     @Test
     void testEscolherClasseErro() throws Exception {
         Exception excecao = assertThrows(Exception.class, () -> this.voo.escolherClasse("primeira classe"));
-        assertEquals(excecao.getMessage(), "Classe de voo indisponível.");
+        assertEquals("Classe de voo indisponível.", excecao.getMessage());
     }
 
     @Test
@@ -107,7 +106,7 @@ public class VooTest {
 
     @Test
     void testRecuperarValorPassagemErro() {
-        RuntimeException excecao = (RuntimeException) assertThrows(Exception.class, () -> this.voo.getValorPassagem());
-        assertEquals(excecao.getMessage(), "A classe deve ser escolhida antes de calcular o valor da passagem.");
+        RuntimeException excecao = assertThrows(RuntimeException.class, () -> this.voo.getValorPassagem());
+        assertEquals("A classe deve ser escolhida antes de calcular o valor da passagem.", excecao.getMessage());
     }
 }

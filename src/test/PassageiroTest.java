@@ -1,7 +1,7 @@
 package test;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import business.Voo;
@@ -10,24 +10,24 @@ import business.Passageiro;
 import business.Funcionario;
 
 public class PassageiroTest {
-    private Passageiro passageiro; 
+    private Passageiro passageiro;
     private Funcionario funcionario;
     private Voo voo;
 
-    public void configVoo() throws Exception{
+    @BeforeEach
+    public void configCenario() throws Exception {
+        this.voo = new Voo(null, null, null);
+        this.passageiro = new Passageiro("João", "123456789", "AB123456");
+        this.funcionario = new Funcionario("Maria Betânia", "259.657.910-38", "mari-beth@gmail.com", "mariaBeth", "testeSenha");
+        configVoo(); 
+    }
+
+    private void configVoo() throws Exception {
         this.voo.cadastrarTarifa("Internacional", "real");
         this.voo.escolherClasse("basica");
         this.voo.escolherBagagem("primeira");
-        this.voo.cadatrarDtHrPartida(1, 1, 2025, 12, 0);
-        this.voo.cadatrarDtHrChegada(1, 1, 2025, 18, 0);
-    }
-
-    @BeforeEach
-    public void configCenario() throws Exception{
-        this.voo = new Voo(null, null, null);
-        this.passageiro = new Passageiro("João", "123456789", "AB123456");
-        this.funcionario = new Funcionario("Maria Betânia", " 259.657.910-38", "mari-beth@gmail.com", "mariaBeth", "testeSenha");
-        this.configVoo();
+        this.voo.cadastrarDtHrPartida(1, 1, 2025, 12, 0);
+        this.voo.cadastrarDtHrChegada(1, 1, 2025, 18, 0);
     }
 
     @Test

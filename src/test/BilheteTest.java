@@ -1,7 +1,7 @@
 package test;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import enums.TipoDocumento;
@@ -11,7 +11,6 @@ import business.Bilhete;
 import business.Passageiro;
 import business.Funcionario;
 
-
 public class BilheteTest {
 
     private Bilhete bilhete;
@@ -19,18 +18,18 @@ public class BilheteTest {
     private Funcionario funcionario;
     private Voo voo;
 
-    public void configVoo() throws Exception {
+    private void configVoo() throws Exception {
         this.voo = new Voo(null, null, null);
         this.voo.cadastrarTarifa("Internacional", "real");
         this.voo.escolherClasse("basica");
         this.voo.escolherBagagem("primeira");
-        this.voo.cadatrarDtHrPartida(1, 1, 2025, 12, 0);
-        this.voo.cadatrarDtHrChegada(1, 1, 2025, 18, 0);
+        this.voo.cadastrarDtHrPartida(1, 1, 2025, 12, 0);
+        this.voo.cadastrarDtHrChegada(1, 1, 2025, 18, 0);
     }
 
     @BeforeEach
     public void configCenario() throws Exception {
-        this.funcionario = new Funcionario("Maria Betânia", " 259.657.910-38", "mari-beth@gmail.com", "mariaBeth", "testeSenha");
+        this.funcionario = new Funcionario("Maria Betânia", "259.657.910-38", "mari-beth@gmail.com", "mariaBeth", "testeSenha");
         this.passageiro = new Passageiro("João", "123456789", "AB123456");
         this.bilhete = new Bilhete(this.passageiro, this.funcionario);
         this.configVoo();
@@ -77,10 +76,10 @@ public class BilheteTest {
 
     @Test
     public void testSetTipoDocumentoInvalido() {
-        IllegalArgumentException excecao =  assertThrows(IllegalArgumentException.class, () -> 
-            bilhete.setTipoDocumento("CPF")
+        IllegalArgumentException excecao = assertThrows(IllegalArgumentException.class, () ->
+                bilhete.setTipoDocumento("CPF")
         );
-        assertEquals(excecao.getMessage(), "Tipo de documento inválido.");
+        assertEquals("Tipo de documento inválido.", excecao.getMessage());
     }
 
     @Test

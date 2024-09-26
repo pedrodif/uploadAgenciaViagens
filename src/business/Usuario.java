@@ -37,7 +37,7 @@ public class Usuario {
     }
 
     public boolean setNome(String nome) {
-        if (nome != null && !nome.trim().isEmpty()) {
+        if (nome != null && nome.matches("[A-Za-zÀ-ÖØ-öø-ÿ ]+")) {
             this.nome = nome;
             return true;
         }    
