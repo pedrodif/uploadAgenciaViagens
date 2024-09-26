@@ -50,7 +50,7 @@ public class Voo {
         return this.dtHrPartida;
     }
 
-    public void cadatrarDtHrPartida(int dia, int mes, int ano, int horas, int minutos){
+    public void cadastrarDtHrPartida(int dia, int mes, int ano, int horas, int minutos){
         this.dtHrPartida = LocalDateTime.of(ano, mes, dia, horas, minutos);
     }
 
@@ -58,7 +58,7 @@ public class Voo {
         return this.dtHrChegada;
     }
 
-    public void cadatrarDtHrChegada(int dia, int mes, int ano, int horas, int minutos) {
+    public void cadastrarDtHrChegada(int dia, int mes, int ano, int horas, int minutos) {
         this.dtHrChegada = LocalDateTime.of(ano, mes, dia, horas, minutos);
     }
 

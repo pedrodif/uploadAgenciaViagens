@@ -19,15 +19,15 @@ public class PassageiroTest {
         this.voo = new Voo(null, null, null);
         this.passageiro = new Passageiro("João", "123456789", "AB123456");
         this.funcionario = new Funcionario("Maria Betânia", "259.657.910-38", "mari-beth@gmail.com", "mariaBeth", "testeSenha");
-        configVoo();  // Ajustando para chamar o método de configuração
+        configVoo(); 
     }
 
     private void configVoo() throws Exception {
         this.voo.cadastrarTarifa("Internacional", "real");
         this.voo.escolherClasse("basica");
         this.voo.escolherBagagem("primeira");
-        this.voo.cadatrarDtHrPartida(1, 1, 2025, 12, 0);
-        this.voo.cadatrarDtHrChegada(1, 1, 2025, 18, 0);
+        this.voo.cadastrarDtHrPartida(1, 1, 2025, 12, 0);
+        this.voo.cadastrarDtHrChegada(1, 1, 2025, 18, 0);
     }
 
     @Test

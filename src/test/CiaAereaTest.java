@@ -8,7 +8,6 @@ import business.Aeroporto;
 import business.CiaAerea;
 import business.Voo;
 
-import java.util.List;
 import java.util.UUID;
 import java.time.LocalDateTime;
 
@@ -28,10 +27,10 @@ public class CiaAereaTest {
         aeroportoGRU = new Aeroporto("Aeroporto de Guarulhos", "GRU", "São Paulo", "SP", "Brasil");
 
         vooConfinsGuarulhos = new Voo(ciaAerea, aeroportoCNF, aeroportoGRU);
-        vooConfinsGuarulhos.cadastrarDtHrPartida(23, 9, 2024, 15, 30);  // Corrigido para cadastrarDtHrPartida
+        vooConfinsGuarulhos.cadastrarDtHrPartida(23, 9, 2024, 15, 30);  
 
         vooGuarulhosConfins = new Voo(ciaAerea, aeroportoGRU, aeroportoCNF);
-        vooGuarulhosConfins.cadastrarDtHrPartida(24, 9, 2024, 16, 0);  // Corrigido para cadastrarDtHrPartida
+        vooGuarulhosConfins.cadastrarDtHrPartida(24, 9, 2024, 16, 0);  
 
         ciaAerea.cadastrarVoo(aeroportoCNF, aeroportoGRU);
         ciaAerea.cadastrarVoo(aeroportoGRU, aeroportoCNF);

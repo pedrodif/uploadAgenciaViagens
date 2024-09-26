@@ -50,13 +50,13 @@ public class VooTest {
     }
 
     @Test
-    void testCadastrarDtHrPartida() { // Correção no nome do método
+    void testCadastrarDtHrPartida() { 
         this.voo.cadastrarDtHrPartida(22, 9, 2024, 13, 20);
         assertEquals(LocalDateTime.of(2024, 9, 22, 13, 20), this.voo.getDtHrPartida());
     }
 
     @Test
-    void testCadastrarDtHrChegada() { // Correção no nome do método
+    void testCadastrarDtHrChegada() { 
         this.voo.cadastrarDtHrChegada(22, 9, 2024, 14, 40);
         assertEquals(LocalDateTime.of(2024, 9, 22, 14, 40), this.voo.getDtHrChegada());
     }

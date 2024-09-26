@@ -32,29 +32,25 @@ public class AeroportoTest {
 
     @Test
     public void testSetSigla() {
-        boolean result = aeroporto.setSigla("XYZ");
-        assertTrue(result);
+        aeroporto.setSigla("XYZ");
         assertEquals("XYZ", aeroporto.getSigla());
     }
 
     @Test
     public void testSetCidade() {
-        boolean result = aeroporto.setCidade("Belo Horizonte");
-        assertTrue(result);
+        aeroporto.setCidade("Belo Horizonte");
         assertEquals("Belo Horizonte", aeroporto.getCidade());
     }
 
     @Test
     public void testSetEstado() {
-        boolean result = aeroporto.setEstado("SP");
-        assertTrue(result);
+        aeroporto.setEstado("SP");
         assertEquals("SP", aeroporto.getEstado());
     }
 
     @Test
     public void testSetPais() {
-        boolean result = aeroporto.setPais("Argentina");
-        assertTrue(result);
+        aeroporto.setPais("Argentina");
         assertEquals("Argentina", aeroporto.getPais());
     }
 }
