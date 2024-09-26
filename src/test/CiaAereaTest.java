@@ -91,7 +91,7 @@ public class CiaAereaTest {
         assertEquals(1, voosEncontrados.size(), "Encontrara apenas um voo.");
     }
 
-    @Tests
+    @Test
     public void testPesquisarVoosErro() {
         LocalDateTime dataPartida = LocalDateTime.of(2024, 9, 23, 15, 30);
 
