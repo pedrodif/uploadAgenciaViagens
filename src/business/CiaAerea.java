@@ -1,10 +1,11 @@
 package business;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.time.LocalDateTime;
+import java.lang.String;
 
 public class CiaAerea {
 
@@ -58,8 +59,8 @@ public class CiaAerea {
         return Collections.unmodifiableList(this.voos);
     }
 
-    public boolean cadastrarVoo(Aeroporto localPartida, Aeroporto localChegada) {
-        return this.voos.add(new Voo(this, localPartida, localChegada));
+    public boolean cadastrarVoo(Voo voo) {
+        return this.voos.add(voo);
     }
 
     protected Voo localizarVoo(String codigo){
@@ -69,28 +70,27 @@ public class CiaAerea {
     public boolean removerVoo(String codigo) {
         Voo voo = localizarVoo(codigo);
 
-        if(voo == null) return false;
         return this.voos.remove(voo);
     }
 
     public List<Voo> pesquisarVoos(String cidadeOrigem, String cidadeDestino, LocalDateTime dataPartida) {
-        List<Voo> voosCidadePartida = pesquisarVoosCidadeOrigem(cidadeOrigem);
+        List<Voo> voosCidadePartida = pesquisarVoosCidadeOrigem(cidadeOrigem, dataPartida);
         List<Voo> voosCidadeDestino = pesquisarVoosCidadeDestino(cidadeDestino);
         List<Voo> voosEncontrados = new ArrayList<>();
 
         for (Voo voo : this.voos) {
-            if (voosCidadePartida.contains(voo) && voosCidadeDestino.contains(voo) && voo.getDtHrPartida().toLocalDate().equals(dataPartida.toLocalDate())) {
+            if (voosCidadePartida.contains(voo) && voosCidadeDestino.contains(voo)) {
                 voosEncontrados.add(voo);
             }
         }
         return voosEncontrados;
     }
 
-    private List<Voo> pesquisarVoosCidadeOrigem(String cidadeOrigem){
+    private List<Voo> pesquisarVoosCidadeOrigem(String cidadeOrigem, LocalDateTime dataPartida){
         List<Voo> voosEncontradosPartida = new ArrayList<>();
 
         for (Voo voo : this.voos) {
-            if (voo.getLocalPartida() != null && voo.getLocalPartida().getCidade().equalsIgnoreCase(cidadeOrigem))
+            if (voo.getLocalPartida().getCidade().equalsIgnoreCase(cidadeOrigem) && voo.getDtHrPartida().toLocalDate().equals(dataPartida.toLocalDate()))
                 voosEncontradosPartida.add(voo);
         }
         return voosEncontradosPartida;
@@ -100,7 +100,7 @@ public class CiaAerea {
         List<Voo> voosEncontradosChegada = new ArrayList<>();
 
         for (Voo voo : this.voos) {
-            if (voo.getLocalChegada() != null && voo.getLocalChegada().getCidade().equalsIgnoreCase(cidadeDestino))
+            if (voo.getLocalChegada().getCidade().equalsIgnoreCase(cidadeDestino))
                 voosEncontradosChegada.add(voo);
         }
         return voosEncontradosChegada;
