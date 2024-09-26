@@ -1,7 +1,7 @@
 package test;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import business.Funcionario;
@@ -21,29 +21,27 @@ public class FuncionarioTest {
     }
 
     @Test
-    public void testSetNome() {
+    public void testGetNome() {
         assertEquals(this.nome, this.funcionario.getNome());
     }
 
-
     @Test
-    public void testSetCpfFormatado() {
+    public void testGetCpfFormatado() {
         assertEquals(this.cpf, this.funcionario.getCpfFormatado());
     }
 
     @Test
-    public void testSetEmail() {
+    public void testGetEmail() {
         assertEquals(this.email, this.funcionario.getEmail());
     }
 
     @Test
-    public void testSetLogin() {
+    public void testGetLogin() {
         assertEquals(this.login, this.funcionario.getLogin());
     }
 
     @Test
-    public void testSetSenha() {
+    public void testGetSenha() {
         assertEquals(this.senha, this.funcionario.getSenha());
     }
 }
-
