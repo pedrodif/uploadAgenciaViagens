@@ -27,13 +27,13 @@ public class CiaAereaTest {
         aeroportoGRU = new Aeroporto("Aeroporto de Guarulhos", "GRU", "São Paulo", "SP", "Brasil");
 
         vooConfinsGuarulhos = new Voo(ciaAerea, aeroportoCNF, aeroportoGRU);
-        vooConfinsGuarulhos.cadastrarDtHrPartida(23, 9, 2024, 15, 30);  
+        vooConfinsGuarulhos.cadastrarDtHrPartida(24, 9, 2024, 16, 0);
 
         vooGuarulhosConfins = new Voo(ciaAerea, aeroportoGRU, aeroportoCNF);
-        vooGuarulhosConfins.cadastrarDtHrPartida(24, 9, 2024, 16, 0);  
+        vooGuarulhosConfins.cadastrarDtHrPartida(24, 9, 2024, 16, 0);
 
-        ciaAerea.cadastrarVoo(aeroportoCNF, aeroportoGRU);
-        ciaAerea.cadastrarVoo(aeroportoGRU, aeroportoCNF);
+        ciaAerea.cadastrarVoo(vooConfinsGuarulhos);
+        ciaAerea.cadastrarVoo(vooGuarulhosConfins);
     }
 
     @Test
@@ -71,8 +71,8 @@ public class CiaAereaTest {
 
     @Test
     public void testCadastrarVoo() {
-        assertTrue(ciaAerea.cadastrarVoo(aeroportoCNF, aeroportoGRU));
-        assertEquals(2, ciaAerea.getVoos().size());  // Ajustado para refletir a quantidade correta
+        assertTrue(ciaAerea.cadastrarVoo(vooConfinsGuarulhos));
+        assertEquals(3, ciaAerea.getVoos().size());
     }
 
     @Test
@@ -84,7 +84,7 @@ public class CiaAereaTest {
 
     @Test
     public void testPesquisarVoosSucesso() {
-        LocalDateTime dataPartida = LocalDateTime.of(2024, 9, 23, 15, 30);
+        LocalDateTime dataPartida = LocalDateTime.of(2024, 9, 24, 15, 30);
         var voosEncontrados = ciaAerea.pesquisarVoos("Belo Horizonte", "São Paulo", dataPartida);
         assertEquals(1, voosEncontrados.size(), "Encontrará apenas um voo.");
     }

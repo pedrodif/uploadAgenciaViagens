@@ -15,6 +15,8 @@ public class Voo {
     private Aeroporto localPartida, localChegada;
     private LocalDateTime dtHrPartida, dtHrChegada;
 
+    public Voo() {}
+
     public Voo(CiaAerea ciaAerea, Aeroporto localPartida, Aeroporto localChegada) {
         this.ciaAerea = ciaAerea;
         this.localPartida = localPartida;
