@@ -51,9 +51,23 @@ public class VooTest {
     }
 
     @Test
-    void testCadastrarDtHrPartida() { 
-        this.voo.cadastrarDtHrPartida(22, 9, 2024, 13, 20);
-        assertEquals(LocalDateTime.of(2024, 9, 22, 13, 20), this.voo.getDtHrPartida());
+    void testCadastrarDtHrPartidaSucesso() throws Exception { 
+        this.voo.cadastrarDtHrPartida(17, 10, 2024, 13, 20);
+        assertEquals(LocalDateTime.of(2024, 10, 17, 13, 20), this.voo.getDtHrPartida());
+    }
+
+    @Test
+    void testCadastrarDtHrPartidaErroCenario1() throws Exception { 
+        IllegalArgumentException excecao = assertThrows(IllegalArgumentException.class, () -> this.voo.cadastrarDtHrPartida(8, 10, 2024, 13, 20));
+
+        assertEquals(excecao.getMessage(), "A data fornecida é anterior à data atual e não é válida para registro.");
+    }
+
+    @Test
+    void testCadastrarDtHrPartidaErroCenario2() throws Exception { 
+        IllegalArgumentException excecao = assertThrows(IllegalArgumentException.class, () -> this.voo.cadastrarDtHrPartida(8, 12, 2024, 13, 20));
+
+        assertEquals(excecao.getMessage(), "A data deve estar dentro de um período de até 30 dias a partir da data atual.");
     }
 
     @Test
