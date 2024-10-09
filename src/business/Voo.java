@@ -15,6 +15,7 @@ public class Voo {
     private double valorPassagem, valorBagagem;
     private Aeroporto localPartida, localChegada;
     private LocalDateTime dtHrPartida, dtHrChegada;
+    private Aeronave aeronave;
 
     public Voo() {}
 
@@ -25,6 +26,14 @@ public class Voo {
         this.codigo = Codigo.gerarCodigoVoo();
     }
 
+    public Aeronave getAeronave() {
+        return aeronave;
+    }
+
+    public void vincularAeronave(int capacidadePassageiros, int capacidadeCargaKg) throws Exception {
+        this.aeronave = new Aeronave(capacidadePassageiros, capacidadeCargaKg);
+    }
+    
     public CiaAerea getCiaArea() {
         return this.ciaAerea;
     }
