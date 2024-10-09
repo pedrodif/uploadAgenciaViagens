@@ -42,7 +42,7 @@ public class BilheteTest {
     }
 
     @Test
-    public void testAdicionarVooCorreto() throws Exception {
+    public void testConferirVooAdicionado() throws Exception {
         bilhete.adicionarVoo(voo);
         assertEquals(voo, bilhete.getVoos().get(0));
     }
