@@ -3,6 +3,7 @@ package business;
 import enums.Bagagem;
 import enums.ClasseVoo;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +52,7 @@ public class Voo {
         return this.tarifa;
     }
 
-    public void cadastrarTarifa(String tipoVoo, String moeda) throws Exception{
+    public void cadastrarTarifa(String tipoVoo, String moeda) throws Exception {
         this.tarifa = new Tarifa(tipoVoo, moeda);
     }
 
@@ -59,8 +60,17 @@ public class Voo {
         return this.dtHrPartida;
     }
 
-    public void cadastrarDtHrPartida(int dia, int mes, int ano, int horas, int minutos){
-        this.dtHrPartida = LocalDateTime.of(ano, mes, dia, horas, minutos);
+    public void cadastrarDtHrPartida(int dia, int mes, int ano, int horas, int minutos) throws Exception {
+        LocalDateTime dataAtual = LocalDateTime.now();
+        LocalDateTime dataEntrada = LocalDateTime.of(ano, mes, dia, horas, minutos);
+        
+        if(ChronoUnit.DAYS.between(dataAtual, dataEntrada) < 0) {
+            throw new IllegalArgumentException("A data fornecida é anterior à data atual e não é válida para registro.");
+        } else if (ChronoUnit.DAYS.between(dataAtual, dataEntrada) > 30) {
+            throw new IllegalArgumentException("A data deve estar dentro de um período de até 30 dias a partir da data atual.");
+        } else {
+            this.dtHrPartida = dataEntrada;
+        }
     }
 
     public LocalDateTime getDtHrChegada() {
