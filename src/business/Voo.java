@@ -3,6 +3,8 @@ package business;
 import enums.Bagagem;
 import enums.ClasseVoo;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Voo {
     
@@ -14,10 +16,15 @@ public class Voo {
     private double valorPassagem, valorBagagem;
     private Aeroporto localPartida, localChegada;
     private LocalDateTime dtHrPartida, dtHrChegada;
+    private boolean cancelado;
+    private List<Bilhete> bilhetes;
 
-    public Voo() {}
+    public Voo() {
+        this.bilhetes = new ArrayList<>();
+    }
 
     public Voo(CiaAerea ciaAerea, Aeroporto localPartida, Aeroporto localChegada) {
+        this();
         this.ciaAerea = ciaAerea;
         this.localPartida = localPartida;
         this.localChegada = localChegada;
@@ -86,7 +93,7 @@ public class Voo {
             throw new RuntimeException("O tipo de bagagem deve ser escolhido antes de calcular seu valor.");
         } else {
             switch (this.bagagem) {
-                case Bagagem.ADICIONAL:
+                case ADICIONAL:
                     this.valorBagagem = this.tarifa.getBagagem() + this.tarifa.getBagagemAdicional();
                     break;
                 default:
@@ -119,16 +126,35 @@ public class Voo {
         } else {
             this.recuperarValorBagagem();
             switch (this.classe) {
-                case ClasseVoo.BUSINESS:
+                case BUSINESS:
                     this.valorPassagem = this.tarifa.getBusiness() + this.valorBagagem;
                     break;
-                case ClasseVoo.PREMIUM:
+                case PREMIUM:
                     this.valorPassagem = this.tarifa.getPremium() + this.valorBagagem;
                     break;
                 default:
                     this.valorPassagem = this.tarifa.getBasica() + this.valorBagagem;
                     break;
             }
+        }
+    }
+
+    public void cancelarVoo() {
+        this.cancelado = true;
+        for (Bilhete bilhete : new ArrayList<>(bilhetes)) {
+            bilhete.cancelarBilhete();
+        }
+    }
+
+    public boolean isCancelado() {
+        return this.cancelado;
+    }
+
+    public void adicionarBilhete(Bilhete bilhete) {
+        if (bilhete != null && !this.cancelado) {
+            this.bilhetes.add(bilhete);
+        } else {
+            throw new IllegalStateException("Não é possível adicionar bilhetes a um voo cancelado.");
         }
     }
 }

@@ -24,6 +24,7 @@ public class Passageiro {
 
     public boolean cadastrarBilhete(Funcionario funcionario) {
         if (funcionario != null) {
+            //Bilhete novoBilhete = new Bilhete(this, funcionario);
             return this.bilhetes.add(new Bilhete(this, funcionario));
         }
         return false;

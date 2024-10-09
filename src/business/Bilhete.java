@@ -14,12 +14,14 @@ public class Bilhete {
     private Funcionario funcionario;
     private TipoDocumento tipoDocumento;
     private double valorTotalSemBagagem, remuneracaoAgencia, valorTotal;
+    private boolean cancelado;
 
     public Bilhete(Passageiro passageiro, Funcionario funcionario) {
         this.passageiro = passageiro;
         this.funcionario = funcionario;
         this.voos = new ArrayList<Voo>();
         this.codigo = Codigo.gerarCodigoBilhete();
+        this.cancelado = false;
     }
 
     public String getCodigo() {
@@ -39,10 +41,13 @@ public class Bilhete {
     }
 
     public void adicionarVoo(Voo voo) {
-        if (voo != null) {
+        if (voo != null && !this.cancelado) {
             this.voos.add(voo);
             this.calcularValorTotal();   
             this.calcularValorTotalSemBagagem();
+            voo.adicionarBilhete(this);
+        } else {
+            throw new IllegalStateException("Não é possível adicionar voos a um bilhete cancelado.");
         }
     }
 
@@ -73,7 +78,7 @@ public class Bilhete {
     public void calcularRemuneracaoAgencia() {
         this.remuneracaoAgencia = this.valorTotalSemBagagem * 0.10;
     }
-    
+
     public TipoDocumento getTipoDocumento() {
         return this.tipoDocumento;
     }
@@ -83,6 +88,33 @@ public class Bilhete {
             this.tipoDocumento = TipoDocumento.valueOf(tipoDocumento);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Tipo de documento inválido.");
+        }
+    }
+
+    public void cancelarBilhete() {
+        this.cancelado = true;
+
+        // for (Voo voo : voos) {
+        
+        }
+    // }
+
+    public boolean isCancelado() {
+        return this.cancelado;
+    }
+
+    public void remarcar(List<Voo> novosVoos) {
+        if (this.cancelado) {
+            this.voos.clear();
+            this.voos.addAll(novosVoos);
+            this.cancelado = false;
+            this.calcularValorTotal();   
+            this.calcularValorTotalSemBagagem();
+            for (Voo voo : novosVoos) {
+                voo.adicionarBilhete(this);
+            }
+        } else {
+            throw new IllegalStateException("Somente bilhetes cancelados podem ser remarcados.");
         }
     }
 }
